@@ -1,6 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-
+import sys
+import os
+sys.path.append(os.path.join(os.path.abspath("src"), ".."))
+from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial 
+ 
 class Login:
     def __init__(self):
         # Lista de usuarios (simulando una base de datos)
@@ -42,6 +46,9 @@ class LoginApp:
         # Instancia de la clase Login
         self.login_sistema = Login()
 
+        # Instancia de la clase AgenteComercial
+        self.agente_comercial = AgenteComercial()
+
         # Crear widgets
         self.label_id = tk.Label(self.root, text="ID de Usuario:")
         self.label_id.pack(pady=5)
@@ -58,8 +65,6 @@ class LoginApp:
         self.boton_login = tk.Button(self.root, text="Iniciar Sesión", command=self.iniciar_sesion)
         self.boton_login.pack(pady=10)
 
-        #self.root.protocol("WM_DELETE_WINDOW", lambda: (root.deiconify(), self.root.destroy()))
-
     def iniciar_sesion(self):
         """
         Método para manejar el evento de inicio de sesión.
@@ -72,10 +77,7 @@ class LoginApp:
 
         # Mostrar el resultado en una ventana emergente
         if rol != "No se encuentra registrado en el sistema o la contraseña es incorrecta.":
-
             self.root.destroy()
-
-            #messagebox.showinfo("Login Exitoso", f"Bienvenido. Su rol es: {rol}.")
 
             if rol == "Asesor financiero":
                 self.rol_asesor_financiero()
@@ -93,28 +95,69 @@ class LoginApp:
             messagebox.showerror("Error", rol)
 
     def rol_asesor_financiero(self):
-
         ventana = tk.Toplevel()
         ventana.title("Asesor financiero")
         ventana.geometry("800x600")
 
+        # Botón para registrar cliente
+        boton_registrar_cliente = tk.Button(ventana, text="Registrar Cliente", command=self.mostrar_encuesta)
+        boton_registrar_cliente.pack(pady=20)
+
+    def mostrar_encuesta(self):
+        encuesta_ventana = tk.Toplevel()
+        encuesta_ventana.title("Registro de Cliente")
+        encuesta_ventana.geometry("400x300")
+
+        # Campos de la encuesta
+        tk.Label(encuesta_ventana, text="ID del Cliente:").pack(pady=5)
+        entry_id = tk.Entry(encuesta_ventana)
+        entry_id.pack(pady=5)
+
+        tk.Label(encuesta_ventana, text="Nombre del Cliente:").pack(pady=5)
+        entry_nombre = tk.Entry(encuesta_ventana)
+        entry_nombre.pack(pady=5)
+
+        tk.Label(encuesta_ventana, text="Productos (separados por comas):").pack(pady=5)
+        entry_productos = tk.Entry(encuesta_ventana)
+        entry_productos.pack(pady=5)
+
+        tk.Label(encuesta_ventana, text="Correo del Cliente:").pack(pady=5)
+        entry_correo = tk.Entry(encuesta_ventana)
+        entry_correo.pack(pady=5)
+
+        tk.Label(encuesta_ventana, text="Teléfono del Cliente:").pack(pady=5)
+        entry_tel = tk.Entry(encuesta_ventana)
+        entry_tel.pack(pady=5)
+
+        # Botón para registrar
+        boton_registrar = tk.Button(encuesta_ventana, text="Registrar", command=lambda: self.registrar_cliente(
+            entry_id.get(), entry_nombre.get(), entry_productos.get(), entry_correo.get(), entry_tel.get(), encuesta_ventana))
+        boton_registrar.pack(pady=20)
+
+    def registrar_cliente(self, id, nombre, productos, correo, tel, ventana):
+        resultado = self.agente_comercial.registrar_cliente(id, nombre, productos, correo, tel)
+        messagebox.showinfo("Resultado", resultado)
+        if "éxito" in resultado.lower():
+            ventana.destroy()
 
     def rol_admin(self):
-
         ventana1 = tk.Toplevel()
         ventana1.title("Admin")
         ventana1.geometry("800x600")
 
-
     def rol_quimico(self):
-
         ventana2 = tk.Toplevel()
         ventana2.title("Quimico")
         ventana2.geometry("800x600")  
 
-
     def rol_bodeguero(self):
-
         ventana3 = tk.Toplevel()
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")  
+
+
+# Ejemplo de uso
+root = tk.Tk()
+root.withdraw()  # Ocultar la ventana principal
+app = LoginApp(root)
+root.mainloop()
