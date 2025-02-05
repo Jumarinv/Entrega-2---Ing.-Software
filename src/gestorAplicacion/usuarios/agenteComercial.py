@@ -2,10 +2,12 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 from src.gestorAplicacion.usuarios.cliente import Cliente
+from src.gestorAplicacion.administrativo.producto import Producto
 
 class AgenteComercial:
 
     clientes = []
+    Pedidos = []
     
     def __init__(self):
         """
@@ -65,3 +67,9 @@ class AgenteComercial:
             }
             for cliente in self.clientes
         ]
+    
+    def crear_pedidos(self, cliente,nombre,estado, ingrediente):
+        Pedido = Producto(cliente,nombre,estado, ingrediente)
+        AgenteComercial.Pedidos.append(Pedido)
+
+        

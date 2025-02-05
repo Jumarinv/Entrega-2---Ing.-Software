@@ -4,7 +4,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
-from src.gestorAplicacion.administrativo.Cambio import Cambio
+#from src.gestorAplicacion.administrativo.Cambio import Cambio
+from src.gestorAplicacion.administrativo.materiaPrima import MateriaPrima
  
 class Login:
     def __init__(self):
@@ -104,6 +105,73 @@ class LoginApp:
         boton_registrar_cliente = tk.Button(ventana, text="Registrar Cliente", command=self.mostrar_encuesta)
         boton_registrar_cliente.pack(pady=20)
 
+        # Botón para crear pedido
+        boton_crear_pedido = tk.Button(ventana, text="Crear Pedido", command=self.crear_pedido)
+        boton_crear_pedido.pack(pady=50)
+
+    def crear_pedido(self):
+        pedido_ventana = tk.Toplevel()
+        pedido_ventana.title("Crear pedido")
+        pedido_ventana.geometry("500x350")
+        lista_ingredientes=[]
+
+        # Etiqueta de instrucciones
+        label = tk.Label(pedido_ventana, text="Seleccione un producto:")
+        label.pack(pady=10)
+
+        # Listbox para mostrar los nombres de los objetos
+        listbox = tk.Listbox(pedido_ventana)
+        for cliente in AgenteComercial.clientes:
+            listbox.insert(tk.END, cliente.getNombre())
+        listbox.pack(pady=10)
+
+
+        tk.Label(pedido_ventana, text="Nombre del pedido").pack(pady=5)
+        entry_nombre = tk.Entry(pedido_ventana)
+        entry_nombre.pack(pady=5)
+  
+
+        boton_agregar_ingrediente = tk.Button(pedido_ventana, text ='agregar ingredientes', command = lambda :self.agregar_ingrediente(lista_ingredientes))
+        boton_agregar_ingrediente.pack(pady=20)
+
+        boton_confirmar = tk.Button(pedido_ventana, text="Confirmar", command=lambda: self.terminar_proceso(listbox.get(listbox.curselection()),entry_nombre.get(),'Pendiente',lista_ingredientes,pedido_ventana))
+        boton_confirmar.pack(pady=10)
+
+        boton_registrar_cliente = tk.Button(pedido_ventana, text="Registrar Cliente", command= lambda :self.registrar_Cliente1(pedido_ventana))
+        boton_registrar_cliente.pack(pady=20)
+
+    def registrar_Cliente1(self,ventana):
+        self.mostrar_encuesta()
+        ventana.destroy()
+
+
+
+    def terminar_proceso(self,cliente,nombre,estado,lista,ventana):
+        AgenteComercial.crear_pedidos(self,cliente,nombre,estado,lista)
+        messagebox.showinfo('Resultado','Pedido creado correctamente')
+        ventana.destroy()
+    
+    def agregar_ingrediente(self,lista):
+        ingrediente_ventana = tk.Toplevel()
+        ingrediente_ventana.title("Ingrediente")
+        ingrediente_ventana.geometry("500x350")
+
+        tk.Label(ingrediente_ventana, text="Nombre del ingrediente").pack(pady=5)
+        entry_nombre = tk.Entry(ingrediente_ventana)
+        entry_nombre.pack(pady=5)
+
+        tk.Label(ingrediente_ventana, text="Ingrese cantidad").pack(pady=5)
+        entry_cantidad = tk.Entry(ingrediente_ventana)
+        entry_cantidad.pack(pady=5)
+
+        boton_agregar_ingrediente = tk.Button(ingrediente_ventana, text ='agregar ingredientes', command = lambda: self.agregar_ingrediente_lista(entry_nombre.get(), entry_cantidad.get(),lista))
+        boton_agregar_ingrediente.pack(pady=20)
+
+    def agregar_ingrediente_lista(self,nombre,cantidad, lista):
+        materia = MateriaPrima(nombre,cantidad, None)
+        messagebox.showinfo('Resultado','Ingrediente agreado correctamente')
+        lista.append(materia)
+
     def mostrar_encuesta(self):
         encuesta_ventana = tk.Toplevel()
         encuesta_ventana.title("Registro de Cliente")
@@ -142,10 +210,11 @@ class LoginApp:
             ventana.destroy()
 
     def mostrarCambios (self):
+           pass
 
-            Cambio.tablaDeCambios()
-            messagebox.showinfo("Creado", "Archivo excel creado")
-            os.system(r'C:\Users\juanc\OneDrive\Documentos\GitHub\Entrega-2---Ing.-Software\src\baseDatos\ListaDeCambios.xlsx') 
+            #Cambio.tablaDeCambios()
+           # messagebox.showinfo("Creado", "Archivo excel creado")
+            #os.system(r'C:\Users\juanc\OneDrive\Documentos\GitHub\Entrega-2---Ing.-Software\src\baseDatos\ListaDeCambios.xlsx')
 
 
     def rol_admin(self):

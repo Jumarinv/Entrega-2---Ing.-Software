@@ -35,5 +35,6 @@ label_descripcion.pack(pady=100)
 boton_login = tk.Button(root, text="Iniciar sesión", command= lambda : ingresar(root))
 boton_login.pack(side="bottom", pady=50)
 
+
 # Iniciar el bucle principal de la aplicación
 root.mainloop()

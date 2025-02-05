@@ -1,8 +1,9 @@
-import openpyxl
+
 
 class Cambio ():
+    pass
 
-    cambios = []
+    '''cambios = []
 
     def __init__ (self, tipo, lote, cantidad, nombre):
 
@@ -60,4 +61,4 @@ if __name__ == "__main__":
     cambio1 = Cambio("Eliminar", "1234", 12, "CremaX")
     cambio2 = Cambio("Agregar", "1244", 12, "CremaY")
     cambio3 = Cambio("Agregar", "1233", 12, "CremaZ")
-    cambio3.tablaDeCambios()
+    cambio3.tablaDeCambios()'''

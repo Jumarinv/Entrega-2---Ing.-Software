@@ -6,3 +6,6 @@ class Cliente:
         self.correo = correo
         self.tel = tel
         #self.tipo = tipo
+
+    def getNombre(self):
+        return self.nombre
