@@ -6,6 +6,9 @@ sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
 #from src.gestorAplicacion.administrativo.Cambio import Cambio
 from src.gestorAplicacion.administrativo.materiaPrima import MateriaPrima
+from src.gestorAplicacion.administrativo.Cambio import Cambio
+from src.gestorAplicacion.administrativo.producto import Producto
+
  
 class Login:
     def __init__(self):
@@ -216,6 +219,10 @@ class LoginApp:
            # messagebox.showinfo("Creado", "Archivo excel creado")
             #os.system(r'C:\Users\juanc\OneDrive\Documentos\GitHub\Entrega-2---Ing.-Software\src\baseDatos\ListaDeCambios.xlsx')
 
+    def excelStockProductos(self):
+
+        Producto.crearInformeExcel()
+        messagebox.showinfo("Información","Se ha creado el archivo de excel.")
 
     def rol_admin(self):
         ventana1 = tk.Toplevel()
@@ -237,10 +244,5 @@ class LoginApp:
         boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
         boton_registrar_cliente.pack(pady=20)
 
-
-
-# Ejemplo de uso
-root = tk.Tk()
-root.withdraw()  # Ocultar la ventana principal
-app = LoginApp(root)
-root.mainloop()
+        boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos)
+        boton_nuevo.pack(pady=20)
