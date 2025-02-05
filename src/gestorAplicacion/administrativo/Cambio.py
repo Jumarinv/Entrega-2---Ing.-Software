@@ -1,9 +1,9 @@
-
+import os
+import openpyxl
 
 class Cambio ():
-    pass
 
-    '''cambios = []
+    cambios = []
 
     def __init__ (self, tipo, lote, cantidad, nombre):
 
@@ -25,9 +25,10 @@ class Cambio ():
         for i in Cambio.cambios:
 
             hoja.append ((i.tipo, i.nombre, i.lote, i.cantidad))
-
         
-        wb.save(r'C:\Users\juanc\OneDrive\Documentos\GitHub\Entrega-2---Ing.-Software\src\baseDatos\ListaDeCambios.xlsx')
+        dirname = os.path.dirname(__file__)
+        filename = os.path.join(dirname, 'historialDeCambios.xlsx')
+        wb.save(filename)
         
 
 
@@ -61,4 +62,5 @@ if __name__ == "__main__":
     cambio1 = Cambio("Eliminar", "1234", 12, "CremaX")
     cambio2 = Cambio("Agregar", "1244", 12, "CremaY")
     cambio3 = Cambio("Agregar", "1233", 12, "CremaZ")
-    cambio3.tablaDeCambios()'''
+    Cambio.tablaDeCambios()
+

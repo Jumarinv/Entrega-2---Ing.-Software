@@ -112,6 +112,11 @@ class LoginApp:
         boton_crear_pedido = tk.Button(ventana, text="Crear Pedido", command=self.crear_pedido)
         boton_crear_pedido.pack(pady=50)
 
+        # Boton para mostrar historial de cambios
+
+        botonHistorial = tk.Button(ventana, text="Mostrar historial", command=self.mostrarCambios)
+        botonHistorial.pack(pady=70)
+
     def crear_pedido(self):
         pedido_ventana = tk.Toplevel()
         pedido_ventana.title("Crear pedido")
@@ -212,12 +217,14 @@ class LoginApp:
         if "éxito" in resultado.lower():
             ventana.destroy()
 
-    def mostrarCambios (self):
-           pass
 
-            #Cambio.tablaDeCambios()
-           # messagebox.showinfo("Creado", "Archivo excel creado")
-            #os.system(r'C:\Users\juanc\OneDrive\Documentos\GitHub\Entrega-2---Ing.-Software\src\baseDatos\ListaDeCambios.xlsx')
+    def mostrarCambios (self):
+
+            Cambio.tablaDeCambios()
+            messagebox.showinfo("Creado", "Archivo excel creado")
+            dirname = os.path.dirname(__file__)
+            filename = os.path.join(dirname, 'historialDeCambios.xlsx')
+            os.system(filename)
 
     def excelStockProductos(self):
 
