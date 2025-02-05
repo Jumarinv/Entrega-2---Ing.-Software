@@ -3,7 +3,8 @@ from tkinter import messagebox
 import sys
 import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
-from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial 
+from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+from src.gestorAplicacion.administrativo.Cambio import Cambio
  
 class Login:
     def __init__(self):
@@ -140,6 +141,13 @@ class LoginApp:
         if "éxito" in resultado.lower():
             ventana.destroy()
 
+    def mostrarCambios (self):
+
+            Cambio.tablaDeCambios()
+            messagebox.showinfo("Creado", "Archivo excel creado")
+            os.system(r'C:\Users\juanc\OneDrive\Documentos\GitHub\Entrega-2---Ing.-Software\src\baseDatos\ListaDeCambios.xlsx') 
+
+
     def rol_admin(self):
         ventana1 = tk.Toplevel()
         ventana1.title("Admin")
@@ -151,9 +159,15 @@ class LoginApp:
         ventana2.geometry("800x600")  
 
     def rol_bodeguero(self):
+        
         ventana3 = tk.Toplevel()
         ventana3.title("Bodeguero")
-        ventana3.geometry("800x600")  
+        ventana3.geometry("800x600")
+
+        # Botón para registrar cliente
+        boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
+        boton_registrar_cliente.pack(pady=20)
+
 
 
 # Ejemplo de uso
