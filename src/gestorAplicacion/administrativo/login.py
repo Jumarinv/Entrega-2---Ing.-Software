@@ -139,8 +139,13 @@ class LoginApp:
         entry_nombre.pack(pady=5)
   
 
-        boton_agregar_ingrediente = tk.Button(pedido_ventana, text ='agregar ingredientes', command = lambda :self.agregar_ingrediente(lista_ingredientes))
-        boton_agregar_ingrediente.pack(pady=20)
+        #boton_agregar_ingrediente = tk.Button(pedido_ventana, text ='agregar ingredientes', command = lambda :self.agregar_ingrediente(lista_ingredientes))
+        #boton_agregar_ingrediente.pack(pady=20)
+
+        tk.Label(pedido_ventana, text="Ingrese un descripcion del pedido:").pack(pady=20)
+        text = tk.Text(pedido_ventana, height=5, width=40)
+        text.pack(pady=20)
+        
 
         boton_confirmar = tk.Button(pedido_ventana, text="Confirmar", command=lambda: self.terminar_proceso(listbox.get(listbox.curselection()),entry_nombre.get(),'Pendiente',lista_ingredientes,pedido_ventana))
         boton_confirmar.pack(pady=10)
