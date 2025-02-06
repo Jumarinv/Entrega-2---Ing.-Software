@@ -26,17 +26,10 @@ label_fondo.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Descripción de la empresa
 descripcion = """
-Bienvenido a nuestra empresa.
-
-Somos una compañía dedicada a ofrecer soluciones innovadoras
-en el ámbito tecnológico. Nuestro objetivo es brindar
-servicios de alta calidad que satisfagan las necesidades
-de nuestros clientes.
-
-¡Gracias por visitarnos!
+Bienvenido a nuestro sistema de gestión
 """
 
-label_descripcion = tk.Label(root, text=descripcion, justify="center", font=("Arial", 12))
+label_descripcion = tk.Label(root, text=descripcion, justify="center", font=("Helvetica", 18))
 label_descripcion.pack(pady=100)
 
 #login = LoginApp(root)

@@ -127,7 +127,7 @@ class LoginApp:
     def crear_pedido(self):
         pedido_ventana = tk.Toplevel()
         pedido_ventana.title("Crear pedido")
-        pedido_ventana.geometry("500x350")
+        pedido_ventana.geometry("500x650")
         pedido_ventana.configure(bg="#f0f0f0")
         lista_ingredientes = []
 
@@ -190,7 +190,7 @@ class LoginApp:
     def mostrar_encuesta(self):
         encuesta_ventana = tk.Toplevel()
         encuesta_ventana.title("Registro de Cliente")
-        encuesta_ventana.geometry("400x300")
+        encuesta_ventana.geometry("400x350")
         encuesta_ventana.configure(bg="#f0f0f0")
         
         campos = [
@@ -231,20 +231,34 @@ class LoginApp:
         ventana1 = tk.Toplevel()
         ventana1.title("Admin")
         ventana1.geometry("800x600")
+        ventana1.title("Administrador")
+
+        # bienvenida
+        tk.Label(ventana1, text="Bienvenido administrador", font=("Arial", 16, "bold")).pack(pady=20)
+
         # Botón para volver
         botonVolver = tk.Button(ventana1, text="Volver", command= lambda: self.reingresar(ventana1) )
         botonVolver.pack(pady=20)
 
     def rol_quimico(self):
         ventana2 = tk.Toplevel()
+        #bienvenida
+        tk.Label(ventana2, text="Bienvenido quimico", font=("Arial", 16, "bold")).pack(pady=20)
+        ventana2.title("Quimico")
         r = InterfazQuimico(ventana2)
 
-    def rol_bodeguero(self):
+        
 
+    def rol_bodeguero(self):
         
         ventana3 = tk.Toplevel()
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")
+
+        # bienvenida
+        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 16, "bold")).pack(pady=20)
+
+        ventana3.title("Bodeguero")
 
         # Botón para registrar cliente
         botonMostrarCambios = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
