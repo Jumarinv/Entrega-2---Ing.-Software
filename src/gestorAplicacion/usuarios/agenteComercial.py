@@ -7,7 +7,7 @@ from src.gestorAplicacion.administrativo.producto import Producto
 class AgenteComercial:
 
     clientes = []
-    Pedidos = []
+    Pedidos = [Producto(None,"Shampoo","Pendiente",[],500,None)]
 
     def registrar_cliente(self, id, nombre, productos, correo, tel):
         """

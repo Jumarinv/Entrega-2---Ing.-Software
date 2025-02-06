@@ -4,10 +4,10 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 
+from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+from tkinter import messagebox
 
 
-import tkinter as tk
-from tkinter import ttk
 
 class InterfazQuimico:
     def __init__(self, root):
@@ -19,8 +19,16 @@ class InterfazQuimico:
         # Selección de Producto
         self.product_label = tk.Label(root, text="Seleccionar Producto:")
         self.product_label.pack(pady=5)
+
+        self.productos_pendientes = []
+        self.objectos_productos = []
+
+        for i in AgenteComercial.Pedidos:
+            if i.estado == "Pendiente":
+                self.productos_pendientes.append(f"{i.nombre} -- {i.cantidad}")
+                self.objectos_productos.append(i.id)
         
-        self.product_combobox = ttk.Combobox(root, values=["Producto A", "Producto B", "Producto C"])
+        self.product_combobox = ttk.Combobox(root, values=self.productos_pendientes)
         self.product_combobox.pack(pady=5)
         
         self.select_button = tk.Button(root, text="Seleccionar", command=self.select_product)
@@ -53,6 +61,8 @@ class InterfazQuimico:
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         
         self.send_button = tk.Button(self.content_frame, text="Asignar Ingredientes y Enviar al Asesor Comercial", command=self.send_data)
+
+        self.cancel_button = tk.Button(self.content_frame, text="Cancelar", command=self.clear_all)
         
     def select_product(self):
         selected_product = self.product_combobox.get()
@@ -67,6 +77,7 @@ class InterfazQuimico:
             self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
             self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
             self.send_button.pack(pady=10)
+            self.cancel_button.pack(pady=10)
 
     def add_ingredient(self):
         ingredient = self.ingredient_entry.get()
@@ -98,8 +109,21 @@ class InterfazQuimico:
         product = self.product_combobox.get()
         data = [(product, item[0], item[1]) for item in self.ingredients]
         print("Datos enviados:", data)
+
+        product_info = product.split()
         
-        # Limpiar la interfaz
+        for h in AgenteComercial.Pedidos:
+            if h.nombre == product_info[0]:
+                selected_product = h
+                break
+        
+        for k in data:
+            selected_product.ingredientes.append([k[1],k[2]])
+
+        selected_product.estado = "En espera"
+
+        messagebox.showinfo("Informacion","Se han enviado los datos al agente comercial")
+
         self.product_combobox.set("")
         for item in self.ingredients:
             item[2].destroy()
@@ -107,3 +131,25 @@ class InterfazQuimico:
         self.ingredient_entry.delete(0, tk.END)
         self.quantity_entry.delete(0, tk.END)
         self.content_frame.pack_forget()
+
+        self.root.destroy()
+
+        new_root = tk.Toplevel()
+
+        h = InterfazQuimico(new_root)
+
+
+
+
+        
+
+    def clear_all(self):
+        self.product_combobox.set("")
+        for item in self.ingredients:
+            item[2].destroy()
+        self.ingredients.clear()
+        self.ingredient_entry.delete(0, tk.END)
+        self.quantity_entry.delete(0, tk.END)
+        self.content_frame.pack_forget()
+
+        messagebox.showinfo("Informacion","Se ha cancelado el diligenciamiento de ingredientes")        

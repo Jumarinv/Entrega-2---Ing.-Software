@@ -6,6 +6,7 @@ import os
 class Producto:
 
     productos = []
+    Contador = 0
     
     def __init__(self,cliente, nombre, estado, ingredientes, cantidad,fechaCaducidad=None):
         self.cliente = cliente
@@ -14,6 +15,8 @@ class Producto:
         self.ingredientes = ingredientes
         self.cantidad = cantidad
         self.fechaCaducidad = fechaCaducidad
+        self.id = Producto.Contador
+        Producto.Contador +=1
     
     @classmethod
     def crearInformeExcel(cls):
