@@ -103,138 +103,93 @@ class LoginApp:
         ventana = tk.Toplevel()
         ventana.title("Asesor financiero")
         ventana.geometry("800x600")
-
-        # Botón para registrar cliente
-        boton_registrar_cliente = tk.Button(ventana, text="Registrar Cliente", command=self.mostrar_encuesta)
-        boton_registrar_cliente.pack(pady=20)
-
-        # Botón para crear pedido
-        boton_crear_pedido = tk.Button(ventana, text="Crear Pedido", command=self.crear_pedido)
-        boton_crear_pedido.pack(pady=50)
-
-        # Boton para mostrar historial de cambios
-
-        botonHistorial = tk.Button(ventana, text="Mostrar historial", command=self.mostrarCambios)
-        botonHistorial.pack(pady=70)
-
+        ventana.configure(bg="#f0f0f0")
+        
+        tk.Label(ventana, text="Bienvenido asesor comercial", font=("Arial", 16, "bold"), bg="#f0f0f0").pack(pady=20)
+        
+        botones = [
+            ("Registrar Cliente", self.mostrar_encuesta),
+            ("Crear Pedido", self.crear_pedido),
+            ("Mostrar historial", self.mostrarCambios)
+        ]
+        
+        for texto, comando in botones:
+            tk.Button(ventana, text=texto, command=comando, font=("Arial", 12), width=20, height=2, bg="#007BFF", fg="white").pack(pady=10)
+    
     def crear_pedido(self):
         pedido_ventana = tk.Toplevel()
         pedido_ventana.title("Crear pedido")
         pedido_ventana.geometry("500x350")
-        lista_ingredientes=[]
+        pedido_ventana.configure(bg="#f0f0f0")
+        lista_ingredientes = []
 
-        # Etiqueta de instrucciones
-        label = tk.Label(pedido_ventana, text="Seleccione un producto:")
-        label.pack(pady=10)
-
-        # Listbox para mostrar los nombres de los objetos
+        tk.Label(pedido_ventana, text="Seleccione un producto:", font=("Arial", 12), bg="#f0f0f0").pack(pady=10)
+        
         listbox = tk.Listbox(pedido_ventana)
         for cliente in AgenteComercial.clientes:
             listbox.insert(tk.END, cliente.getNombre())
         listbox.pack(pady=10)
 
-
-        tk.Label(pedido_ventana, text="Nombre del pedido").pack(pady=5)
+        tk.Label(pedido_ventana, text="Nombre del pedido:", font=("Arial", 12), bg="#f0f0f0").pack(pady=5)
         entry_nombre = tk.Entry(pedido_ventana)
         entry_nombre.pack(pady=5)
-  
 
-        #boton_agregar_ingrediente = tk.Button(pedido_ventana, text ='agregar ingredientes', command = lambda :self.agregar_ingrediente(lista_ingredientes))
-        #boton_agregar_ingrediente.pack(pady=20)
-
-        tk.Label(pedido_ventana, text="Ingrese un descripcion del pedido:").pack(pady=20)
+        tk.Label(pedido_ventana, text="Ingrese una descripción del pedido:", font=("Arial", 12), bg="#f0f0f0").pack(pady=10)
         text = tk.Text(pedido_ventana, height=5, width=40)
-        text.pack(pady=20)
+        text.pack(pady=10)
         
-
-        boton_confirmar = tk.Button(pedido_ventana, text="Confirmar", command=lambda: self.terminar_proceso(listbox.get(listbox.curselection()),entry_nombre.get(),'Pendiente',lista_ingredientes,pedido_ventana))
-        boton_confirmar.pack(pady=10)
-
-        boton_registrar_cliente = tk.Button(pedido_ventana, text="Registrar Cliente", command= lambda :self.registrar_Cliente1(pedido_ventana))
-        boton_registrar_cliente.pack(pady=20)
-
-    def registrar_Cliente1(self,ventana):
+        tk.Button(pedido_ventana, text="Confirmar", command=lambda: self.terminar_proceso(listbox.get(listbox.curselection()), entry_nombre.get(), 'Pendiente', lista_ingredientes, pedido_ventana), font=("Arial", 12), bg="#28A745", fg="white").pack(pady=10)
+        
+        tk.Button(pedido_ventana, text="Registrar Cliente", command=lambda: self.registrar_Cliente1(pedido_ventana), font=("Arial", 12), bg="#DC3545", fg="white").pack(pady=10)
+    
+    def registrar_Cliente1(self, ventana):
         self.mostrar_encuesta()
         ventana.destroy()
-
-
-
-    def terminar_proceso(self,cliente,nombre,estado,lista,ventana):
-        AgenteComercial.crear_pedidos(self,cliente,nombre,estado,lista)
-        messagebox.showinfo('Resultado','Pedido creado correctamente')
+    
+    def terminar_proceso(self, cliente, nombre, estado, lista, ventana):
+        AgenteComercial.crear_pedidos(self, cliente, nombre, estado, lista)
+        messagebox.showinfo("Resultado", "Pedido creado correctamente")
         ventana.destroy()
     
-    def agregar_ingrediente(self,lista):
-        ingrediente_ventana = tk.Toplevel()
-        ingrediente_ventana.title("Ingrediente")
-        ingrediente_ventana.geometry("500x350")
-
-        tk.Label(ingrediente_ventana, text="Nombre del ingrediente").pack(pady=5)
-        entry_nombre = tk.Entry(ingrediente_ventana)
-        entry_nombre.pack(pady=5)
-
-        tk.Label(ingrediente_ventana, text="Ingrese cantidad").pack(pady=5)
-        entry_cantidad = tk.Entry(ingrediente_ventana)
-        entry_cantidad.pack(pady=5)
-
-        boton_agregar_ingrediente = tk.Button(ingrediente_ventana, text ='agregar ingredientes', command = lambda: self.agregar_ingrediente_lista(entry_nombre.get(), entry_cantidad.get(),lista))
-        boton_agregar_ingrediente.pack(pady=20)
-
-    def agregar_ingrediente_lista(self,nombre,cantidad, lista):
-        materia = MateriaPrima(nombre,cantidad, None)
-        messagebox.showinfo('Resultado','Ingrediente agreado correctamente')
-        lista.append(materia)
-
     def mostrar_encuesta(self):
         encuesta_ventana = tk.Toplevel()
         encuesta_ventana.title("Registro de Cliente")
         encuesta_ventana.geometry("400x300")
-
-        # Campos de la encuesta
-        tk.Label(encuesta_ventana, text="ID del Cliente:").pack(pady=5)
-        entry_id = tk.Entry(encuesta_ventana)
-        entry_id.pack(pady=5)
-
-        tk.Label(encuesta_ventana, text="Nombre del Cliente:").pack(pady=5)
-        entry_nombre = tk.Entry(encuesta_ventana)
-        entry_nombre.pack(pady=5)
-
-        #tk.Label(encuesta_ventana, text="Productos (separados por comas):").pack(pady=5)
-        #entry_productos = tk.Entry(encuesta_ventana)
-        #entry_productos.pack(pady=5)
-
-        tk.Label(encuesta_ventana, text="Correo del Cliente:").pack(pady=5)
-        entry_correo = tk.Entry(encuesta_ventana)
-        entry_correo.pack(pady=5)
-
-        tk.Label(encuesta_ventana, text="Teléfono del Cliente:").pack(pady=5)
-        entry_tel = tk.Entry(encuesta_ventana)
-        entry_tel.pack(pady=5)
-
-        # Botón para registrar
-        boton_registrar = tk.Button(encuesta_ventana, text="Registrar", command=lambda: self.registrar_cliente(
-            entry_id.get(), entry_nombre.get(), "", entry_correo.get(), entry_tel.get(), encuesta_ventana))
-        boton_registrar.pack(pady=20)
-
+        encuesta_ventana.configure(bg="#f0f0f0")
+        
+        campos = [
+            ("ID del Cliente:", None),
+            ("Nombre del Cliente:", None),
+            ("Correo del Cliente:", None),
+            ("Teléfono del Cliente:", None)
+        ]
+        
+        entradas = []
+        for texto, _ in campos:
+            tk.Label(encuesta_ventana, text=texto, font=("Arial", 12), bg="#f0f0f0").pack(pady=5)
+            entry = tk.Entry(encuesta_ventana)
+            entry.pack(pady=5)
+            entradas.append(entry)
+        
+        tk.Button(encuesta_ventana, text="Registrar", command=lambda: self.registrar_cliente(entradas[0].get(), entradas[1].get(), "", entradas[2].get(), entradas[3].get(), encuesta_ventana), font=("Arial", 12), bg="#007BFF", fg="white").pack(pady=20)
+    
     def registrar_cliente(self, id, nombre, productos, correo, tel, ventana):
         resultado = self.agente_comercial.registrar_cliente(id, nombre, productos, correo, tel)
         messagebox.showinfo("Resultado", resultado)
         if "éxito" in resultado.lower():
             ventana.destroy()
-
-
-    def mostrarCambios (self):
-
-            Cambio.tablaDeCambios()
-            messagebox.showinfo("Creado", "Archivo excel creado")
-            dirname = os.path.dirname(__file__)
-            filename = os.path.join(dirname, 'historialDeCambios.xlsx')
-            os.system(filename)
-
+    
+    def mostrarCambios(self):
+        Cambio.tablaDeCambios()
+        messagebox.showinfo("Creado", "Archivo excel creado")
+        dirname = os.path.dirname(__file__)
+        filename = os.path.join(dirname, "historialDeCambios.xlsx")
+        os.system(filename)
+    
     def excelStockProductos(self):
-
         Producto.crearInformeExcel()
-        messagebox.showinfo("Información","Se ha creado el archivo de excel.")
+        messagebox.showinfo("Información", "Se ha creado el archivo de excel.")
+
 
     def rol_admin(self):
         ventana1 = tk.Toplevel()
