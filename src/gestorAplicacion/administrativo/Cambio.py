@@ -1,15 +1,16 @@
 import os
 import openpyxl
+from datetime import date
 
 class Cambio ():
 
     cambios = []
 
-    def __init__ (self, tipo, lote, cantidad, nombre):
+    def __init__ (self, tipo, responsable, nombre, fecha):
 
         self.tipo = tipo
-        self.lote = lote
-        self.cantidad = cantidad
+        self.responsable = responsable
+        self.fecha = fecha
         self.nombre = nombre
         Cambio.cambios.append (self)
 
@@ -20,11 +21,11 @@ class Cambio ():
         hoja = wb.active
         print(wb.path)
         print("a")
-        hoja.append (("Tipo", "Nombre", "Lote", "Cantidad"))
+        hoja.append (("Tipo", "Responsable", "Nombre", "Fecha"))
 
         for i in Cambio.cambios:
 
-            hoja.append ((i.tipo, i.nombre, i.lote, i.cantidad))
+            hoja.append ((i.tipo, i.responsable, i.nombre, str(i.fecha)))
         
         dirname = os.path.dirname(__file__)
         filename = os.path.join(dirname, 'historialDeCambios.xlsx')
@@ -59,8 +60,6 @@ def getCantidad (self):
 
 if __name__ == "__main__":
 
-    cambio1 = Cambio("Eliminar", "1234", 12, "CremaX")
-    cambio2 = Cambio("Agregar", "1244", 12, "CremaY")
-    cambio3 = Cambio("Agregar", "1233", 12, "CremaZ")
+    Cambio("Pedido", "Asesor", "crema", date.today() )
     Cambio.tablaDeCambios()
 

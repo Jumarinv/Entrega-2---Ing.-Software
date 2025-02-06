@@ -5,6 +5,8 @@ import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 
 from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+from src.gestorAplicacion.administrativo.Cambio import Cambio
+from datetime import date
 
 from tkinter import messagebox
 
@@ -126,7 +128,7 @@ class InterfazQuimico:
             selected_product.ingredientes.append([k[1],k[2]])
 
         selected_product.estado = "En espera"
-
+        Cambio("Ingredientes", "Quimico", product, date.today() )
         messagebox.showinfo("Informacion","Se han enviado los datos al agente comercial")
 
         self.product_combobox.set("")

@@ -3,6 +3,8 @@ import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 from src.gestorAplicacion.usuarios.cliente import Cliente
 from src.gestorAplicacion.administrativo.producto import Producto
+from src.gestorAplicacion.administrativo.Cambio import Cambio
+from datetime import date
 
 class AgenteComercial:
 
@@ -37,6 +39,7 @@ class AgenteComercial:
             return "Error: El cliente ya existe. Actualice los datos del cliente existente si es necesario."
 
         self.clientes.append(nuevo_cliente)
+        Cambio("Registro", "Asesor", id, date.today() )
         return "Cliente registrado exitosamente."
 
     def validar_duplicado(self, nuevo_cliente):

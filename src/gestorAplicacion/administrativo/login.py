@@ -9,6 +9,7 @@ from src.gestorAplicacion.administrativo.materiaPrima import MateriaPrima
 from src.gestorAplicacion.administrativo.Cambio import Cambio
 from src.gestorAplicacion.administrativo.producto import Producto
 from src.gestorAplicacion.administrativo.Interfaz_quimico import InterfazQuimico
+from datetime import date
 
 
  
@@ -165,6 +166,7 @@ class LoginApp:
         def confirmar_seleccion():
             try:
                 seleccion = listbox_nombres.get(listbox_nombres.curselection())
+                Cambio("Pedido", "Asesor", entry_nombre.get(), date.today() )
                 self.terminar_proceso(seleccion, entry_nombre.get(), 'Pendiente', entry_cantidad.get(), pedido_ventana)
             except tk.TclError:
                 print("Por favor, selecciona un elemento de la lista.")
