@@ -91,7 +91,7 @@ class LoginApp:
         if rol != "No se encuentra registrado en el sistema o la contraseña es incorrecta.":
             self.root.destroy()
 
-            if rol == "Asesor comercial":
+            if rol == "Asesor financiero":
                 self.rol_asesor_financiero()
 
             elif rol == "Admin":
