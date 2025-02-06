@@ -8,13 +8,6 @@ class AgenteComercial:
 
     clientes = []
     Pedidos = []
-    
-    def __init__(self):
-        """
-        Inicializa el agente comercial con una lista para almacenar los clientes.
-        Cada cliente es una instancia de la clase Cliente.
-        """
-        
 
     def registrar_cliente(self, id, nombre, productos, correo, tel):
         """
@@ -22,7 +15,6 @@ class AgenteComercial:
 
         :param id: Identificación del cliente
         :param nombre: Nombre del cliente
-        :param productos: Lista de productos del cliente
         :param correo: Correo del cliente
         :param tel: Teléfono del cliente
         :return: Mensaje indicando el resultado del registro

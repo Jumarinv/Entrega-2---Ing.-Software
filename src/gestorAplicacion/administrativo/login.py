@@ -199,9 +199,9 @@ class LoginApp:
         entry_nombre = tk.Entry(encuesta_ventana)
         entry_nombre.pack(pady=5)
 
-        tk.Label(encuesta_ventana, text="Productos (separados por comas):").pack(pady=5)
-        entry_productos = tk.Entry(encuesta_ventana)
-        entry_productos.pack(pady=5)
+        #tk.Label(encuesta_ventana, text="Productos (separados por comas):").pack(pady=5)
+        #entry_productos = tk.Entry(encuesta_ventana)
+        #entry_productos.pack(pady=5)
 
         tk.Label(encuesta_ventana, text="Correo del Cliente:").pack(pady=5)
         entry_correo = tk.Entry(encuesta_ventana)
@@ -213,7 +213,7 @@ class LoginApp:
 
         # Botón para registrar
         boton_registrar = tk.Button(encuesta_ventana, text="Registrar", command=lambda: self.registrar_cliente(
-            entry_id.get(), entry_nombre.get(), entry_productos.get(), entry_correo.get(), entry_tel.get(), encuesta_ventana))
+            entry_id.get(), entry_nombre.get(), "", entry_correo.get(), entry_tel.get(), encuesta_ventana))
         boton_registrar.pack(pady=20)
 
     def registrar_cliente(self, id, nombre, productos, correo, tel, ventana):
