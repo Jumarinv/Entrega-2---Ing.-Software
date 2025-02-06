@@ -4,10 +4,10 @@ from gestorAplicacion.administrativo.login import Login,LoginApp
 from PIL import Image, ImageTk
 
 # Función para abrir la ventana de login y ocultar la ventana principal
-
 def ingresar(root):
     root.withdraw()
-    app = LoginApp(root)
+    global app
+    app=  LoginApp(root)
 
 # Crear la ventana principal
 root = tk.Tk()
@@ -44,6 +44,4 @@ label_descripcion.pack(pady=100)
 boton_login = tk.Button(root, text="Iniciar sesión", command=lambda: ingresar(root), width=20, height=2, font=("Arial", 16))
 boton_login.pack(side="bottom", pady=50, anchor="n")
 
-
-# Iniciar el bucle principal de la aplicación
 root.mainloop()

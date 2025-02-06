@@ -207,9 +207,11 @@ class LoginApp:
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")
 
-        # Botón para registrar cliente
-        boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
-        boton_registrar_cliente.pack(pady=20)
+        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 16, "bold"), bg="#f0f0f0").pack(pady=20)
 
-        boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos)
-        boton_nuevo.pack(pady=20)
+        # Botón para registrar cliente
+        boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios,font=("Arial", 12), width=20, height=2, bg="#007BFF", fg="white").pack(pady=10)
+        
+
+        boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos,font=("Arial", 12), width=20, height=2, bg="#007BFF", fg="white").pack(pady=10)
+
