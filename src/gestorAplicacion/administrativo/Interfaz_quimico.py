@@ -24,12 +24,20 @@ class InterfazQuimico:
         self.product_label.pack(pady=5)
 
         self.productos_pendientes = []
-        self.objectos_productos = []
+
 
         for i in AgenteComercial.Pedidos:
-            if i.estado == "Pendiente":
-                self.productos_pendientes.append(f"{i.nombre} -- {i.cantidad}")
-                self.objectos_productos.append(i.id)
+            if i.estado == None:
+                self.productos_pendientes.append(f"{i.cliente} -- {i.ingredientes}")
+
+        for i in AgenteComercial.Pedidos:
+            print(i.cliente)
+            print(i.nombre)
+            print(i.estado)
+            print(i.ingredientes)
+            print(i.cantidad)
+
+
         
         self.product_combobox = ttk.Combobox(root, values=self.productos_pendientes)
         self.product_combobox.pack(pady=5)
@@ -121,12 +129,13 @@ class InterfazQuimico:
         product_info = product.split()
         
         for h in AgenteComercial.Pedidos:
-            if h.nombre == product_info[0]:
+            if h.cliente == product_info[0]:
                 selected_product = h
                 break
         
         for k in data:
-            selected_product.ingredientes.append([k[1],k[2]])
+            selected_product.cantidad = []
+            selected_product.cantidad.append([k[1],k[2]])
 
         selected_product.estado = "En espera"
         Cambio("Ingredientes", "Quimico", product, date.today() )
