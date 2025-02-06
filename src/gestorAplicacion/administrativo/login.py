@@ -124,32 +124,59 @@ class LoginApp:
         pedido_ventana.configure(bg="#f0f0f0")
         lista_ingredientes = []
 
-        tk.Label(pedido_ventana, text="Seleccione un producto:", font=("Arial", 12), bg="#f0f0f0").pack(pady=10)
-        
-        listbox = tk.Listbox(pedido_ventana)
+        # Etiqueta de instrucciones
+        label = tk.Label(pedido_ventana, text="Seleccione un cliente:")
+        label.pack(pady=10)
+
+        # Listbox para mostrar los nombres de los objetos
+        listbox_nombres = tk.Listbox(pedido_ventana)
         for cliente in AgenteComercial.clientes:
-            listbox.insert(tk.END, cliente.getNombre())
-        listbox.pack(pady=10)
+            listbox_nombres.insert(tk.END, cliente.getNombre())
+        listbox_nombres.pack(pady=10)
 
         tk.Label(pedido_ventana, text="Nombre del pedido:", font=("Arial", 12), bg="#f0f0f0").pack(pady=5)
         entry_nombre = tk.Entry(pedido_ventana)
         entry_nombre.pack(pady=5)
 
-        tk.Label(pedido_ventana, text="Ingrese una descripción del pedido:", font=("Arial", 12), bg="#f0f0f0").pack(pady=10)
+        tk.Label(pedido_ventana, text="Cantidad del pedido").pack(pady=5)
+        entry_cantidad = tk.Entry(pedido_ventana)
+        entry_cantidad.pack(pady=5)
+  
+
+        #boton_agregar_ingrediente = tk.Button(pedido_ventana, text ='agregar ingredientes', command = lambda :self.agregar_ingrediente(lista_ingredientes))
+        #boton_agregar_ingrediente.pack(pady=20)
+
+        tk.Label(pedido_ventana, text="Ingrese un descripcion del pedido:").pack(pady=20)
         text = tk.Text(pedido_ventana, height=5, width=40)
         text.pack(pady=10)
         
-        tk.Button(pedido_ventana, text="Confirmar", command=lambda: self.terminar_proceso(listbox.get(listbox.curselection()), entry_nombre.get(), 'Pendiente', lista_ingredientes, pedido_ventana), font=("Arial", 12), bg="#28A745", fg="white").pack(pady=10)
-        
-        tk.Button(pedido_ventana, text="Registrar Cliente", command=lambda: self.registrar_Cliente1(pedido_ventana), font=("Arial", 12), bg="#DC3545", fg="white").pack(pady=10)
+
+        #cliente, nombre, estado, ingredientes, cantidad,fechaCaducidad=None
+
+        boton_registrar_cliente = tk.Button(pedido_ventana, text="Registrar Cliente", command= lambda :self.registrar_Cliente1(pedido_ventana))
+        boton_registrar_cliente.pack(pady=20)
+
+        def confirmar_seleccion():
+            try:
+                seleccion = listbox_nombres.get(listbox_nombres.curselection())
+                self.terminar_proceso(seleccion, entry_nombre.get(), 'Pendiente', entry_cantidad.get(), pedido_ventana)
+            except tk.TclError:
+                print("Por favor, selecciona un elemento de la lista.")
+
+        boton_confirmar = tk.Button(pedido_ventana, text="Confirmar", command=confirmar_seleccion)
+        boton_confirmar.pack(pady=10) 
+
     
-    def registrar_Cliente1(self, ventana):
+
+    def registrar_Cliente1(self,ventana):
         self.mostrar_encuesta()
         ventana.destroy()
-    
-    def terminar_proceso(self, cliente, nombre, estado, lista, ventana):
-        AgenteComercial.crear_pedidos(self, cliente, nombre, estado, lista)
-        messagebox.showinfo("Resultado", "Pedido creado correctamente")
+
+
+
+    def terminar_proceso(self,cliente,nombre,estado,cantidad,ventana):
+        AgenteComercial.crear_pedidos(cliente,nombre,estado,None,cantidad,None)
+        messagebox.showinfo('Resultado','Pedido creado correctamente')
         ventana.destroy()
     
     def mostrar_encuesta(self):
@@ -207,11 +234,9 @@ class LoginApp:
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")
 
-        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 16, "bold"), bg="#f0f0f0").pack(pady=20)
-
         # Botón para registrar cliente
-        boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios,font=("Arial", 12), width=20, height=2, bg="#007BFF", fg="white").pack(pady=10)
-        
+        boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
+        boton_registrar_cliente.pack(pady=20)
 
-        boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos,font=("Arial", 12), width=20, height=2, bg="#007BFF", fg="white").pack(pady=10)
-
+        boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos)
+        boton_nuevo.pack(pady=20)

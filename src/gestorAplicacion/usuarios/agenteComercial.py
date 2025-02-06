@@ -7,7 +7,14 @@ from src.gestorAplicacion.administrativo.producto import Producto
 class AgenteComercial:
 
     clientes = []
-    Pedidos = [Producto(None,"Shampoo","Pendiente",[],500,None)]
+    Pedidos = []
+    
+    def __init__(self):
+        """
+        Inicializa el agente comercial con una lista para almacenar los clientes.
+        Cada cliente es una instancia de la clase Cliente.
+        """
+        
 
     def registrar_cliente(self, id, nombre, productos, correo, tel):
         """
@@ -15,6 +22,7 @@ class AgenteComercial:
 
         :param id: Identificación del cliente
         :param nombre: Nombre del cliente
+        :param productos: Lista de productos del cliente
         :param correo: Correo del cliente
         :param tel: Teléfono del cliente
         :return: Mensaje indicando el resultado del registro
@@ -60,8 +68,8 @@ class AgenteComercial:
             for cliente in self.clientes
         ]
     
-    def crear_pedidos(self, cliente,nombre,estado, ingrediente):
-        Pedido = Producto(cliente,nombre,estado, ingrediente)
+    def crear_pedidos(self, cliente, nombre, estado, ingredientes= None, cantidad=0 ,fechaCaducidad=None):
+        Pedido = Producto(cliente,nombre,estado, ingredientes, cantidad, fechaCaducidad)
         AgenteComercial.Pedidos.append(Pedido)
 
         
