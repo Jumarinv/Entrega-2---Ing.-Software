@@ -24,7 +24,9 @@ class Producto:
         now_colombia = datetime.now(colombia_tz)
         fecha = now_colombia.strftime("%Y_mes_%m_dia_%d_Hora_%H_%M")
         nombre_archivo = f"{fecha}.xlsx"  # Nombre del archivo con la fecha
-        ubicacion = f"C:\\Users\\jonat\\OneDrive\\Documentos\\GitHub\\Entrega-2---Ing.-Software\\{fecha}.xlsx"
+        dirname = os.path.dirname(__file__)
+        ubicacion = os.path.join(dirname, nombre_archivo)
+        print (ubicacion)
         
         # Filtrar productos con fecha de caducidad y sin fecha
         productos_con_fecha = [p for p in cls.productos if p.fechaCaducidad is not None]
@@ -50,7 +52,7 @@ class Producto:
         
         # Crear el DataFrame y guardarlo como un archivo Excel
         df = pd.DataFrame(datos)
-        df.to_excel(nombre_archivo, index=False)
+        df.to_excel(ubicacion, index=False)
         
         # Imprimir mensaje de éxito
         print(f"Archivo '{nombre_archivo}' generado exitosamente.")
@@ -62,7 +64,6 @@ class Producto:
     def agregarProducto(cls,p):
         cls.productos.append(p)
 
-"""
 producto1 = Producto(cliente="Cliente1", nombre="Producto1", estado="Nuevo", ingredientes=["Azúcar", "Harina"], cantidad=10, fechaCaducidad="2025-05-01")
 producto2 = Producto(cliente="Cliente2", nombre="Producto2", estado="Nuevo", ingredientes=["Sal", "Aceite"], cantidad=5, fechaCaducidad="2025-06-01")
 producto3 = Producto(cliente="Cliente3", nombre="Producto3", estado="Usado", ingredientes=["Leche", "Cereal"], cantidad=3, fechaCaducidad="2025-07-01")
@@ -76,5 +77,3 @@ Producto.agregarProducto(producto5)
 Producto.agregarProducto(Producto("Juan", "Pizza", "Entregado", ["Queso", "Tomate"], 2, "2024-07-01"))
 Producto.agregarProducto(Producto("Ana", "Hamburguesa", "Pendiente", ["Carne", "Pan"], 3,"2025-07-02"))
 #Producto.crearInformeExcel()
-
-"""
