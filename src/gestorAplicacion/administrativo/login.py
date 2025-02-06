@@ -10,8 +10,11 @@ from src.gestorAplicacion.administrativo.Cambio import Cambio
 from src.gestorAplicacion.administrativo.producto import Producto
 from src.gestorAplicacion.administrativo.Interfaz_quimico import InterfazQuimico
 
+
  
 class Login:
+
+    root1 = None
     def __init__(self):
         # Lista de usuarios (simulando una base de datos)
         self.usuarios = [
@@ -20,6 +23,8 @@ class Login:
             {"id": "003", "nombre": "Pedro", "rol": "Bodeguero", "contraseña": "1234"},
             {"id": "004", "nombre": "Ana", "rol": "Admin", "contraseña": "1234"},
         ]
+
+        
 
     def autenticar(self, id_usuario, password):
         """
@@ -111,7 +116,8 @@ class LoginApp:
         botones = [
             ("Registrar Cliente", self.mostrar_encuesta),
             ("Crear Pedido", self.crear_pedido),
-            ("Mostrar historial", self.mostrarCambios)
+            ("Mostrar historial", self.mostrarCambios),
+            ("Volver", lambda: self.reingresar(ventana))
         ]
         
         for texto, comando in botones:
@@ -223,20 +229,33 @@ class LoginApp:
         ventana1 = tk.Toplevel()
         ventana1.title("Admin")
         ventana1.geometry("800x600")
+        # Botón para volver
+        botonVolver = tk.Button(ventana1, text="Volver", command= lambda: self.reingresar(ventana1) )
+        botonVolver.pack(pady=20)
 
     def rol_quimico(self):
         ventana2 = tk.Toplevel()
         r = InterfazQuimico(ventana2)
 
     def rol_bodeguero(self):
+
         
         ventana3 = tk.Toplevel()
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")
 
         # Botón para registrar cliente
-        boton_registrar_cliente = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
-        boton_registrar_cliente.pack(pady=20)
+        botonMostrarCambios = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
+        botonMostrarCambios.pack(pady=20)
 
         boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos)
         boton_nuevo.pack(pady=20)
+
+        # Botón para volver
+        botonVolver = tk.Button(ventana3, text="Volver", command= lambda: self.reingresar(ventana3) )
+        botonVolver.pack(pady=20)
+
+    def reingresar (self, ventana):
+
+        LoginApp(Login.root1)
+        ventana.destroy()

@@ -13,6 +13,7 @@ def ingresar(root):
 root = tk.Tk()
 root.title("Sistema de gestión")
 root.geometry("800x600")
+Login.root1 = root
 
 # Cargar la imagen de fondo (asegúrate de usar un formato soportado)
 imagen_fondo =  Image.open("imagen1.jpg")  # Cargar una imagen JPG, por ejemplo

@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 
 from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+
 from tkinter import messagebox
 
 
@@ -33,6 +34,10 @@ class InterfazQuimico:
         
         self.select_button = tk.Button(root, text="Seleccionar", command=self.select_product)
         self.select_button.pack(pady=5)
+
+        # Botón para volver
+        botonVolver = tk.Button(root, text="Volver", command= lambda: self.reingresar(root) )
+        botonVolver.pack(pady=5)
         
         # Frame para contener los elementos que deben aparecer después de seleccionar el producto
         self.content_frame = tk.Frame(root)
@@ -152,4 +157,9 @@ class InterfazQuimico:
         self.quantity_entry.delete(0, tk.END)
         self.content_frame.pack_forget()
 
-        messagebox.showinfo("Informacion","Se ha cancelado el diligenciamiento de ingredientes")        
+        messagebox.showinfo("Informacion","Se ha cancelado el diligenciamiento de ingredientes")    
+
+    def reingresar (self, ventana):
+        from src.gestorAplicacion.administrativo.login import LoginApp,Login
+        LoginApp(Login.root1)   
+        ventana.destroy()    
