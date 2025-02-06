@@ -91,7 +91,7 @@ class LoginApp:
         if rol != "No se encuentra registrado en el sistema o la contraseña es incorrecta.":
             self.root.destroy()
 
-            if rol == "Asesor financiero":
+            if rol == "Asesor comercial":
                 self.rol_asesor_financiero()
 
             elif rol == "Admin":
@@ -108,7 +108,7 @@ class LoginApp:
 
     def rol_asesor_financiero(self):
         ventana = tk.Toplevel()
-        ventana.title("Asesor financiero")
+        ventana.title("Asesor comercial")
         ventana.geometry("800x600")
         ventana.configure(bg="#f0f0f0")
         
