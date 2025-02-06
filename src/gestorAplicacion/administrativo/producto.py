@@ -62,6 +62,7 @@ class Producto:
     def agregarProducto(cls,p):
         cls.productos.append(p)
 
+"""
 producto1 = Producto(cliente="Cliente1", nombre="Producto1", estado="Nuevo", ingredientes=["Azúcar", "Harina"], cantidad=10, fechaCaducidad="2025-05-01")
 producto2 = Producto(cliente="Cliente2", nombre="Producto2", estado="Nuevo", ingredientes=["Sal", "Aceite"], cantidad=5, fechaCaducidad="2025-06-01")
 producto3 = Producto(cliente="Cliente3", nombre="Producto3", estado="Usado", ingredientes=["Leche", "Cereal"], cantidad=3, fechaCaducidad="2025-07-01")
@@ -75,3 +76,5 @@ Producto.agregarProducto(producto5)
 Producto.agregarProducto(Producto("Juan", "Pizza", "Entregado", ["Queso", "Tomate"], 2, "2024-07-01"))
 Producto.agregarProducto(Producto("Ana", "Hamburguesa", "Pendiente", ["Carne", "Pan"], 3,"2025-07-02"))
 #Producto.crearInformeExcel()
+
+"""
