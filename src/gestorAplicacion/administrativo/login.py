@@ -252,7 +252,7 @@ class LoginApp:
         label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
 
         # bienvenida
-        tk.Label(ventana1, text="Bienvenido administrador", font=("Arial", 16, "bold")).pack(pady=20)
+        tk.Label(ventana1, text="Bienvenido administrador", font=("Arial", 22, "bold")).pack(pady=20)
 
         # Botón para volver
         botonVolver = tk.Button(ventana1, text="Volver", command= lambda: self.reingresar(ventana1) )
@@ -263,7 +263,7 @@ class LoginApp:
         ventana2.geometry("800x600")
 
         imagen_fondo = Image.open("descarga1.jpg")
-        imagen_fondo = imagen_fondo.resize((800, 600))
+        imagen_fondo = imagen_fondo.resize((1000, 800))
         fondo = ImageTk.PhotoImage(imagen_fondo)
 
         # Crear un label con la imagen
@@ -272,7 +272,7 @@ class LoginApp:
         label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
 
         #bienvenida
-        tk.Label(ventana2, text="Bienvenido quimico", font=("Arial", 16, "bold")).pack(pady=20)
+        tk.Label(ventana2, text="Bienvenido quimico", font=("Arial", 22, "bold")).pack(pady=20)
         ventana2.title("Quimico")
         r = InterfazQuimico(ventana2)
 
@@ -294,7 +294,7 @@ class LoginApp:
         label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
 
         # bienvenida
-        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 16, "bold")).pack(pady=20)
+        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 22, "bold")).pack(pady=20)
 
         ventana3.title("Bodeguero")
 

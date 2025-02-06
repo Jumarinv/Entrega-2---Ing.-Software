@@ -15,8 +15,8 @@ from tkinter import messagebox
 class InterfazQuimico:
     def __init__(self, root):
         self.root = root
-        self.root.title("Asignar Ingredientes a Producto")
-        self.root.geometry("800x600")
+        self.root.title("Quimico")
+        self.root.geometry("1000x800")
         self.ingredients = []
 
         # Selección de Producto
@@ -67,7 +67,8 @@ class InterfazQuimico:
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         
-        self.send_button = tk.Button(self.content_frame, text="Asignar Ingredientes y Enviar al Asesor Comercial", command=self.send_data)
+        self.send_button = tk.Button(self.content_frame, text="Asignar Ingredientes", command=self.send_data)
+                                                              #"Asignar Ingredientes y Enviar al Asesor Comercial"
 
         self.cancel_button = tk.Button(self.content_frame, text="Cancelar", command=self.clear_all)
         
