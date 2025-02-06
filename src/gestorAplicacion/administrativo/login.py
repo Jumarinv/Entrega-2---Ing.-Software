@@ -10,7 +10,7 @@ from src.gestorAplicacion.administrativo.Cambio import Cambio
 from src.gestorAplicacion.administrativo.producto import Producto
 from src.gestorAplicacion.administrativo.Interfaz_quimico import InterfazQuimico
 from datetime import date
-
+from PIL import Image, ImageTk
 
  
 class Login:
@@ -112,7 +112,17 @@ class LoginApp:
         ventana.geometry("800x600")
         ventana.configure(bg="#f0f0f0")
         
-        tk.Label(ventana, text="Bienvenido asesor comercial", font=("Arial", 16, "bold"), bg="#f0f0f0").pack(pady=20)
+            # Cargar la imagen de fondo
+        imagen_fondo = Image.open("descarga1.jpg")
+        imagen_fondo = imagen_fondo.resize((800, 600))
+        fondo = ImageTk.PhotoImage(imagen_fondo)
+
+        # Crear un label con la imagen
+        label_fondo = tk.Label(ventana, image=fondo)
+        label_fondo.place(relwidth=1, relheight=1)
+        label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
+
+        tk.Label(ventana, text="Bienvenido asesor comercial", font=("Arial", 22, "bold"), bg="#f0f0f0").pack(pady=20)
         
         botones = [
             ("Registrar Cliente", self.mostrar_encuesta),
@@ -122,7 +132,7 @@ class LoginApp:
         ]
         
         for texto, comando in botones:
-            tk.Button(ventana, text=texto, command=comando, font=("Arial", 12), width=20, height=2, bg="#007BFF", fg="white").pack(pady=10)
+            tk.Button(ventana, text=texto, command=comando, font=("Arial", 12), width=20, height=2, bg="#0056b3", fg="white").pack(pady=10)
     
     def crear_pedido(self):
         pedido_ventana = tk.Toplevel()
@@ -229,9 +239,17 @@ class LoginApp:
 
     def rol_admin(self):
         ventana1 = tk.Toplevel()
-        ventana1.title("Admin")
         ventana1.geometry("800x600")
         ventana1.title("Administrador")
+
+        imagen_fondo = Image.open("descarga1.jpg")
+        imagen_fondo = imagen_fondo.resize((800, 600))
+        fondo = ImageTk.PhotoImage(imagen_fondo)
+
+        # Crear un label con la imagen
+        label_fondo = tk.Label(ventana1, image=fondo)
+        label_fondo.place(relwidth=1, relheight=1)
+        label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
 
         # bienvenida
         tk.Label(ventana1, text="Bienvenido administrador", font=("Arial", 16, "bold")).pack(pady=20)
@@ -242,6 +260,17 @@ class LoginApp:
 
     def rol_quimico(self):
         ventana2 = tk.Toplevel()
+        ventana2.geometry("800x600")
+
+        imagen_fondo = Image.open("descarga1.jpg")
+        imagen_fondo = imagen_fondo.resize((800, 600))
+        fondo = ImageTk.PhotoImage(imagen_fondo)
+
+        # Crear un label con la imagen
+        label_fondo = tk.Label(ventana2, image=fondo)
+        label_fondo.place(relwidth=1, relheight=1)
+        label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
+
         #bienvenida
         tk.Label(ventana2, text="Bienvenido quimico", font=("Arial", 16, "bold")).pack(pady=20)
         ventana2.title("Quimico")
@@ -254,6 +283,15 @@ class LoginApp:
         ventana3 = tk.Toplevel()
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")
+
+        imagen_fondo = Image.open("descarga1.jpg")
+        imagen_fondo = imagen_fondo.resize((800, 600))
+        fondo = ImageTk.PhotoImage(imagen_fondo)
+
+        # Crear un label con la imagen
+        label_fondo = tk.Label(ventana3, image=fondo)
+        label_fondo.place(relwidth=1, relheight=1)
+        label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
 
         # bienvenida
         tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 16, "bold")).pack(pady=20)

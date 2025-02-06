@@ -16,7 +16,7 @@ class InterfazQuimico:
     def __init__(self, root):
         self.root = root
         self.root.title("Asignar Ingredientes a Producto")
-        self.root.geometry("1000x800")
+        self.root.geometry("800x600")
         self.ingredients = []
 
         # Selección de Producto
