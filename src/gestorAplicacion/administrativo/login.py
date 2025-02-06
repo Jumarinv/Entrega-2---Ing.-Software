@@ -8,6 +8,7 @@ from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
 from src.gestorAplicacion.administrativo.materiaPrima import MateriaPrima
 from src.gestorAplicacion.administrativo.Cambio import Cambio
 from src.gestorAplicacion.administrativo.producto import Producto
+from src.gestorAplicacion.administrativo.Interfaz_quimico import InterfazQuimico
 
  
 class Login:
@@ -198,8 +199,7 @@ class LoginApp:
 
     def rol_quimico(self):
         ventana2 = tk.Toplevel()
-        ventana2.title("Quimico")
-        ventana2.geometry("800x600")  
+        r = InterfazQuimico(ventana2)
 
     def rol_bodeguero(self):
         
