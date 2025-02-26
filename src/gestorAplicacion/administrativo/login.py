@@ -19,7 +19,7 @@ class Login:
     def __init__(self):
         # Lista de usuarios (simulando una base de datos)
         self.usuarios = [
-            {"id": "001", "nombre": "Juan", "rol": "Asesor financiero", "contraseña": "1234"},
+            {"id": "001", "nombre": "Juan", "rol": "Asesor comercial", "contraseña": "1234"},
             {"id": "002", "nombre": "Maria", "rol": "Quimico", "contraseña": "1234"},
             {"id": "003", "nombre": "Pedro", "rol": "Bodeguero", "contraseña": "1234"},
             {"id": "004", "nombre": "Ana", "rol": "Admin", "contraseña": "1234"},
@@ -91,7 +91,7 @@ class LoginApp:
         if rol != "No se encuentra registrado en el sistema o la contraseña es incorrecta.":
             self.root.destroy()
 
-            if rol == "Asesor financiero":
+            if rol == "Asesor comercial":
                 self.rol_asesor_financiero()
 
             elif rol == "Admin":
@@ -262,18 +262,12 @@ class LoginApp:
         ventana2 = tk.Toplevel()
         ventana2.geometry("800x600")
 
-        imagen_fondo = Image.open("descarga1.jpg")
-        imagen_fondo = imagen_fondo.resize((1000, 800))
-        fondo = ImageTk.PhotoImage(imagen_fondo)
 
-        # Crear un label con la imagen
-        label_fondo = tk.Label(ventana2, image=fondo)
-        label_fondo.place(relwidth=1, relheight=1)
-        label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
+
+
 
         #bienvenida
-        tk.Label(ventana2, text="Bienvenido quimico", font=("Arial", 22, "bold")).pack(pady=20)
-        ventana2.title("Quimico")
+        
         r = InterfazQuimico(ventana2)
 
         

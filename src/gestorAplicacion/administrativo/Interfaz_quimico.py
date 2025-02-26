@@ -7,6 +7,7 @@ sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
 from src.gestorAplicacion.administrativo.Cambio import Cambio
 from datetime import date
+from PIL import Image, ImageTk
 
 from tkinter import messagebox
 
@@ -17,10 +18,44 @@ class InterfazQuimico:
         self.root = root
         self.root.title("Quimico")
         self.root.geometry("1000x800")
+
+        self.imagen_fondo = Image.open("descarga1.jpg")
+        self.imagen_fondo = self.imagen_fondo.resize((1000, 800))
+        self.fondo = ImageTk.PhotoImage(self.imagen_fondo)
+
+        # Crear un label con la imagen
+        self.label_fondo = tk.Label(self.root, image=self.fondo)
+        self.label_fondo.place(relwidth=1, relheight=1)
+        self.label_fondo.image = self.fondo  # Evitar que la imagen sea eliminada por el recolector de basura
+
+        self.crear_interfaz_quimico()
+
+    def crear_interfaz_quimico(self):
+
+
+        self.bienvenida = tk.Label(self.root, text="Bienvenido quimico", font=("Arial", 22, "bold"))
+        self.bienvenida.pack(pady=20)
+
+        self.boton_asignar_ingredientes = tk.Button(self.root,text="Asignar ingredientes a producto", font=("Arial", 12), width=25, height=2, bg="#0056b3", fg="white", 
+        command=lambda :self.asignar_ingredientes())
+
+        self.boton_asignar_ingredientes.pack(pady=20)
+
+
+    def eliminar_elementos(self):
+        for widget in self.root.winfo_children():
+            if widget != self.label_fondo:
+                widget.destroy()
+
+    def asignar_ingredientes(self):
+
+        self.eliminar_elementos()
+
+
         self.ingredients = []
 
         # Selección de Producto
-        self.product_label = tk.Label(root, text="Seleccionar Producto:")
+        self.product_label = tk.Label(self.root, text="Seleccionar Producto:")
         self.product_label.pack(pady=5)
 
         self.productos_pendientes = []
@@ -39,18 +74,18 @@ class InterfazQuimico:
 
 
         
-        self.product_combobox = ttk.Combobox(root, values=self.productos_pendientes)
+        self.product_combobox = ttk.Combobox(self.root, values=self.productos_pendientes)
         self.product_combobox.pack(pady=5)
         
-        self.select_button = tk.Button(root, text="Seleccionar", command=self.select_product)
+        self.select_button = tk.Button(self.root, text="Seleccionar", command=self.select_product)
         self.select_button.pack(pady=5)
 
         # Botón para volver
-        botonVolver = tk.Button(root, text="Volver", command= lambda: self.reingresar(root) )
+        botonVolver = tk.Button(self.root, text="Volver", command= lambda: self.reingresar(self.root) )
         botonVolver.pack(pady=5)
         
         # Frame para contener los elementos que deben aparecer después de seleccionar el producto
-        self.content_frame = tk.Frame(root)
+        self.content_frame = tk.Frame(self.root)
 
         # Entrada de Ingredientes
         self.ingredient_label = tk.Label(self.content_frame, text="Ingrediente:")
