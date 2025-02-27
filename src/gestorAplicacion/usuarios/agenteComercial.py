@@ -9,7 +9,7 @@ from datetime import date
 class AgenteComercial:
 
     clientes = []
-    Pedidos = []
+    Pedidos = [Producto(None,"Jabon",None,None,24,None)] #Objeto creado para pruebas
     
     def __init__(self):
         """
