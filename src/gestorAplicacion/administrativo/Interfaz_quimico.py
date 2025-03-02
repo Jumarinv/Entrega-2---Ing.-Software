@@ -53,25 +53,25 @@ class InterfazQuimico:
     def asignar_ingredientes2(self, producto):
         self.eliminar_elementos()
 
-        self.out_upper_frame = tk.Frame(self.root)
+        self.out_upper_frame = tk.Frame(self.root, bd=2,bg="lightblue")
         self.out_upper_frame.pack(fill="both",expand=True)
 
-        self.upper_frame = tk.Frame(self.out_upper_frame)
+        self.upper_frame = tk.Frame(self.out_upper_frame,bd=2,bg="lightblue")
         self.upper_frame.place( relx=0.5,rely=0.5, anchor="center")
         
 
-        self.name_product_label = tk.Label(self.upper_frame,padx=10, pady=10, text="Nombre del producto")
+        self.name_product_label = tk.Label(self.upper_frame,padx=10, pady=10, text="Nombre del producto",bd=2,bg="lightblue")
         self.name_product_label.grid(row = 0,column=0, columnspan=2)
 
-        self.name_product_entry = tk.Entry(self.upper_frame)
+        self.name_product_entry = tk.Entry(self.upper_frame,bd=2,bg="lightblue")
         self.name_product_entry.grid(row=0,column=2, columnspan=3)
         self.name_product_entry.insert(0,producto.nombre)
         self.name_product_entry.config(state="disabled")
 
-        self.quantity_product_label = tk.Label(self.upper_frame, text="Cantidad de producto")
+        self.quantity_product_label = tk.Label(self.upper_frame, text="Cantidad de producto",bd=2,bg="lightblue")
         self.quantity_product_label.grid(row = 1, column=0, columnspan=2)
 
-        self.quantity_product_entry = tk.Entry(self.upper_frame)
+        self.quantity_product_entry = tk.Entry(self.upper_frame,bd=2,bg="lightblue")
         self.quantity_product_entry.grid(row = 1, column=2, columnspan=3)
         self.quantity_product_entry.insert(0,str(producto.cantidad))
         self.quantity_product_entry.config(state="disabled")
@@ -130,13 +130,13 @@ class InterfazQuimico:
             self.asignar_ingredientes2(objeto_seleccionado)
 
             # Frame para contener los elementos que deben aparecer después de seleccionar el producto
-            self.content_frame = tk.Frame(self.root)
+            self.content_frame = tk.Frame(self.root, bd=2,bg="lightblue")
 
             # Entrada de Ingredientes
-            self.ingredient_label = tk.Label(self.content_frame, text="Ingrediente:")
+            self.ingredient_label = tk.Label(self.content_frame, text="Ingrediente:",bd=2,bg="lightblue")
             self.ingredient_entry = tk.Entry(self.content_frame)
             
-            self.quantity_label = tk.Label(self.content_frame, text="Cantidad:")
+            self.quantity_label = tk.Label(self.content_frame, text="Cantidad:",bd=2,bg="lightblue")
             self.quantity_entry = tk.Entry(self.content_frame)
             
             self.add_button = tk.Button(self.content_frame, text="Agregar Ingrediente", command=self.add_ingredient)
@@ -180,13 +180,13 @@ class InterfazQuimico:
         quantity = self.quantity_entry.get()
         
         if ingredient and quantity:
-            frame = tk.Frame(self.scrollable_frame)
-            frame.pack(fill=tk.X, pady=2)
+            frame = tk.Frame(self.scrollable_frame,bd=2,relief="ridge")
+            frame.pack(fill=tk.X, pady=2, expand=True)
             
-            label = tk.Label(frame, text=f"{ingredient} - {quantity}", anchor="w")
+            label = tk.Label(frame, text=f"{ingredient} - {quantity}", anchor="w", font=("Arial", 13))
             label.pack(side=tk.LEFT, fill=tk.X, expand=True)
             
-            delete_button = tk.Button(frame, text="X", command=lambda: self.remove_ingredient(frame))
+            delete_button = tk.Button(frame, text="❌", command=lambda: self.remove_ingredient(frame))
             delete_button.pack(side=tk.RIGHT)
             
             self.ingredients.append((ingredient, quantity, frame))
@@ -214,8 +214,7 @@ class InterfazQuimico:
         for k in data:
             Quimico.asociar_ingredientes(k[1],k[2],producto)
 
-        producto.estado = "En espera"
-        Cambio("Ingredientes", "Quimico", producto, date.today() )
+        Cambio("Ingredientes", "Quimico", producto.nombre, date.today() )
         messagebox.showinfo("Informacion","Se han enviado los datos al agente comercial")
 
         for item in self.ingredients:

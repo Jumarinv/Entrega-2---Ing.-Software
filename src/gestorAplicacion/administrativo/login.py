@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 import sys
 import os
@@ -299,9 +300,62 @@ class LoginApp:
         boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos)
         boton_nuevo.pack(pady=20)
 
+        
+        boton_validar = tk.Button(ventana3, text="Validar llegada de materia prima", command=self.validar_llegada_materiaprima)
+        boton_validar.pack(pady=20)
+
         # Botón para volver
         botonVolver = tk.Button(ventana3, text="Volver", command= lambda: self.reingresar(ventana3) )
         botonVolver.pack(pady=20)
+
+    def validar_llegada_materiaprima(self):
+        from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+        from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
+
+        lista_productos_pendientes = Bodeguero.productos_pendientes()
+
+        for p in AgenteComercial.Pedidos:
+            print(f"{p.nombre} -- {p.estado}")
+
+
+        if len(lista_productos_pendientes) == 0:
+
+            messagebox.showinfo("Informacion","No hay productos pendientes por recibir materia prima")
+
+        else:
+
+            llegada_ventana = tk.Toplevel()
+            llegada_ventana.title("Validar llegada materia prima")
+            llegada_ventana.geometry("500x400")
+            
+            nombres_productos = []
+
+            for o in lista_productos_pendientes:
+                nombres_productos.append(o.nombre)
+
+            label_informacion_validar = tk.Label(llegada_ventana,text="Seleccione el producto, el cual ya cuenta con sus \n todos ingredientes para empezar su produccion:")
+            label_informacion_validar.pack(pady=8)
+
+            combobox_nombres_productos = ttk.Combobox(llegada_ventana, values=nombres_productos,state='readonly')
+            combobox_nombres_productos.pack(pady=8)
+
+            boton_seleccionar = tk.Button(llegada_ventana, text="Seleccionar", command=lambda: self.cambiar_estado_producir(combobox_nombres_productos,lista_productos_pendientes,llegada_ventana)) ########
+            boton_seleccionar.pack(pady=5)
+
+    def cambiar_estado_producir(self,combobox,productos_pendientes,ventana):
+        from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
+        from src.gestorAplicacion.administrativo.Cambio import Cambio
+
+        nombre_producto = combobox.get()
+        indice_producto = combobox.current()
+
+        Cambio("Llegada ingredientes","Bodeguero",productos_pendientes[indice_producto].nombre, date.today())
+
+        messagebox.showinfo("Informacion",f"Se ha validado la llegada de los ingredientes del producto: {nombre_producto}")
+
+        Bodeguero.cambiar_estado_producto(productos_pendientes[indice_producto],"En produccion")
+
+        ventana.destroy()
 
     def reingresar (self, ventana):
 

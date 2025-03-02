@@ -20,6 +20,7 @@ class Quimico:
         producto.ingredientes = []
         Materia_Prima = MateriaPrima(nombre,int(cantidad),producto)
         producto.ingredientes.append(Materia_Prima)
+        producto.estado = "Pendiente"
     
     @staticmethod
     def productos_pendientes():
