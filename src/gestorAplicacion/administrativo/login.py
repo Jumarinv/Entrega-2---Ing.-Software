@@ -381,6 +381,12 @@ class LoginApp:
         boton_validar = tk.Button(ventana3, text="Validar llegada de materia prima", command=self.validar_llegada_materiaprima)
         boton_validar.pack(pady=20)
 
+        boton_terminar = tk.Button(ventana3, text="Terminar producto", command=self.actualizar_terminados)
+        boton_terminar.pack(pady=20)
+
+        boton_buscar= tk.Button(ventana3, text="Buscar producto", command=self.buscar)
+        boton_buscar.pack(pady=20)
+
         # Botón para volver
         botonVolver = tk.Button(ventana3, text="Volver", command= lambda: self.reingresar(ventana3) )
         botonVolver.pack(pady=20)
@@ -419,6 +425,87 @@ class LoginApp:
             boton_seleccionar = tk.Button(llegada_ventana, text="Seleccionar", command=lambda: self.cambiar_estado_producir(combobox_nombres_productos,lista_productos_pendientes,llegada_ventana)) ########
             boton_seleccionar.pack(pady=5)
 
+    def actualizar_terminados(self):
+        from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+        from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
+
+        productosEnProduccion = Bodeguero.productosEnProduccion()
+
+        if len(productosEnProduccion) == 0:
+            messagebox.showinfo("Información", "No hay productos pendientes por recibir materia prima")
+        else:
+            llegada_ventana = tk.Toplevel()
+            llegada_ventana.title("Actualizar productos terminados")
+            llegada_ventana.geometry("500x400")
+            
+            nombres_productos = [o.nombre for o in productosEnProduccion]
+
+            label_informacion_validar = tk.Label(llegada_ventana, text="Seleccione el producto que quiere establecer como terminado:")
+            label_informacion_validar.pack(pady=8)
+
+            combobox_nombres_productos = ttk.Combobox(llegada_ventana, values=nombres_productos, state='readonly')
+            combobox_nombres_productos.pack(pady=8)
+
+            # Nuevo label para la fecha de vencimiento
+            label_fecha_vencimiento = tk.Label(llegada_ventana, text="Ingresar fecha de vencimiento:")
+            label_fecha_vencimiento.pack(pady=8)
+
+            # Campo de entrada para la fecha de vencimiento
+            entry_fecha_vencimiento = tk.Entry(llegada_ventana)
+            entry_fecha_vencimiento.pack(pady=8)
+
+            boton_seleccionar = tk.Button(
+                llegada_ventana, 
+                text="Seleccionar", 
+                command=lambda: self.cambiar_estado_terminado(
+                    combobox_nombres_productos, 
+                    productosEnProduccion, 
+                    llegada_ventana, 
+                    entry_fecha_vencimiento.get()  # Pasamos la fecha ingresada
+                )
+            )
+            boton_seleccionar.pack(pady=5)
+
+    def buscar(self):
+        from src.gestorAplicacion.administrativo.producto import Producto
+
+        productosTerminados = Producto.productos
+
+        if len(productosTerminados) == 0:
+            messagebox.showinfo("Información", "No hay productos con ese ID")
+        else:
+            llegada_ventana = tk.Toplevel()
+            llegada_ventana.title("Buscar producto")
+            llegada_ventana.geometry("500x400")
+
+            label_fecha_vencimiento = tk.Label(llegada_ventana, text="Ingresar ID del producto:")
+            label_fecha_vencimiento.pack(pady=8)
+
+            # Campo de entrada para el ID del producto a buscar
+            entryProductoABuscar = tk.Entry(llegada_ventana)
+            entryProductoABuscar.pack(pady=8)
+
+            # Label para mostrar la información del producto encontrado
+            label_resultado = tk.Label(llegada_ventana, text="", wraplength=400, justify="left")
+            label_resultado.pack(pady=8)
+
+            def realizar_busqueda():
+                from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
+                
+                producto = Bodeguero.buscar(int(entryProductoABuscar.get()))
+
+                if not producto is None:
+                    label_resultado.config(text=f"Producto encontrado:\n{producto.id}")
+                else:
+                    label_resultado.config(text="No se encontró el producto con ese ID")
+
+            boton_seleccionar = tk.Button(
+                llegada_ventana,
+                text="Buscar",
+                command=realizar_busqueda
+            )
+            boton_seleccionar.pack(pady=5)      
+
     def cambiar_estado_producir(self,combobox,productos_pendientes,ventana):
         from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
         from src.gestorAplicacion.administrativo.Cambio import Cambio
@@ -433,6 +520,29 @@ class LoginApp:
         Bodeguero.cambiar_estado_producto(productos_pendientes[indice_producto],"En produccion")
 
         ventana.destroy()
+    
+    def cambiar_estado_terminado(self,combobox,productos_pendientes,ventana,fecha):
+        from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
+        from src.gestorAplicacion.administrativo.Cambio import Cambio
+        from src.gestorAplicacion.administrativo.producto import Producto
+
+        nombre_producto = combobox.get()
+        indice_producto = combobox.current()
+
+
+        Cambio("Llegada ingredientes","Bodeguero",productos_pendientes[indice_producto].nombre, date.today())
+
+        messagebox.showinfo("Informacion",f"Se ha terminado el producto: {nombre_producto}")
+        productos_pendientes[indice_producto].fechaCaducidad = fecha
+        Bodeguero.cambiar_estado_producto(productos_pendientes[indice_producto],"Terminado")
+        Producto.agregarProducto(productos_pendientes[indice_producto])
+
+        ventana.destroy()
+        for p in Producto.productos:
+            print(p.id)
+        print(Bodeguero.buscar(1))
+        print(productos_pendientes[indice_producto].fechaCaducidad)
+        print(Producto.productos[0].id)
 
     def reingresar (self, ventana):
 
