@@ -71,8 +71,7 @@ class AgenteComercial:
             for cliente in self.clientes
         ]
     
-    def crear_pedidos(self, cliente, nombre, estado, ingredientes= None, cantidad=0 ,fechaCaducidad=None):
-        Pedido = Producto(cliente,nombre,estado, ingredientes, cantidad, fechaCaducidad)
-        AgenteComercial.Pedidos.append(Pedido)
+
+        
 
         

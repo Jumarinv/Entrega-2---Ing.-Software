@@ -255,7 +255,8 @@ class LoginApp:
             try:
                 seleccion = listbox_nombres.get(listbox_nombres.curselection())
                 Cambio("Pedido", "Asesor", entry_nombre.get(), date.today() )
-                self.terminar_proceso(seleccion, entry_nombre.get(), 'Pendiente', entry_cantidad.get(), pedido_ventana)
+                print(f"Nombre ingresado: {entry_nombre.get()}")
+                self.terminar_proceso(seleccion, entry_nombre.get(), None, entry_cantidad.get(), pedido_ventana)
             except tk.TclError:
                 print("Por favor, selecciona un elemento de la lista.")
 
@@ -271,9 +272,16 @@ class LoginApp:
 
 
     def terminar_proceso(self,cliente,nombre,estado,cantidad,ventana):
-        AgenteComercial.crear_pedidos(cliente,nombre,estado,None,cantidad,None)
+        def crear_pedidos(cliente, nombre, estado, ingredientes= None, cantidad=0 ,fechaCaducidad=None):
+            Pedido = Producto(cliente,nombre,estado, ingredientes, cantidad, fechaCaducidad)
+            AgenteComercial.Pedidos.append(Pedido)
+            print(f"Cliente: {cliente}, Nombre: {nombre}, Estado: {estado}, Ingredientes: {ingredientes}, Cantidad: {cantidad}, Fecha: {fechaCaducidad}")
+            print(nombre)
+        crear_pedidos(cliente,nombre,estado,None,cantidad,None)
         messagebox.showinfo('Resultado','Pedido creado correctamente')
         ventana.destroy()
+        for i in AgenteComercial.Pedidos:
+            print(f"Cliente: {i.cliente}, Nombre: {i.nombre}, Estado: {i.estado}, Ingredientes: {i.ingredientes}, Cantidad: {i.cantidad}, Fecha: {i.fechaCaducidad}")
     
     def mostrar_encuesta(self):
         encuesta_ventana = tk.Toplevel()
@@ -398,7 +406,7 @@ class LoginApp:
         from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
         from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
 
-        lista_productos_pendientes = Bodeguero.productos_pendientes()
+        lista_productos_pendientes = Bodeguero.productos_pendientes2()
 
         for p in AgenteComercial.Pedidos:
             print(f"{p.nombre} -- {p.estado}")
@@ -470,6 +478,7 @@ class LoginApp:
         messagebox.showinfo("Informacion",f"Se ha despachado el producto: {nombre_producto}")
 
         Producto.productos.remove(productos_pendientes[indice_producto])
+        ventana.destroy()
 
 
 
@@ -495,7 +504,7 @@ class LoginApp:
             combobox_nombres_productos.pack(pady=8)
 
             # Nuevo label para la fecha de vencimiento
-            label_fecha_vencimiento = tk.Label(llegada_ventana, text="Ingresar fecha de vencimiento:")
+            label_fecha_vencimiento = tk.Label(llegada_ventana, text="Ingresar fecha de vencimiento (dd/mm/aa):")
             label_fecha_vencimiento.pack(pady=8)
 
             # Campo de entrada para la fecha de vencimiento
@@ -520,7 +529,7 @@ class LoginApp:
         productosTerminados = Producto.productos
 
         if len(productosTerminados) == 0:
-            messagebox.showinfo("Información", "No hay productos con ese ID")
+            messagebox.showinfo("Información", "No hay productos terminados")
         else:
             llegada_ventana = tk.Toplevel()
             llegada_ventana.title("Buscar producto")
@@ -543,7 +552,12 @@ class LoginApp:
                 producto = Bodeguero.buscar(int(entryProductoABuscar.get()))
 
                 if not producto is None:
-                    label_resultado.config(text=f"Producto encontrado:\n{producto.id}")
+                    label_resultado.config(text=f"""Producto encontrado:\n
+                                           ID: {producto.id}\n
+                                           Nombre: {producto.nombre}\n
+                                           Cliente: {producto.cliente}\n
+                                           Cantidad: {producto.cantidad}\n
+                                           Fecha de caducidad: {producto.fechaCaducidad}""")
                 else:
                     label_resultado.config(text="No se encontró el producto con ese ID")
 
@@ -552,7 +566,13 @@ class LoginApp:
                 text="Buscar",
                 command=realizar_busqueda
             )
-            boton_seleccionar.pack(pady=5)      
+            boton_seleccionar.pack(pady=5)
+            boton_regresar = tk.Button(
+                llegada_ventana,
+                text="Regresar",
+                command=llegada_ventana.destroy
+            )
+            boton_regresar.pack(pady=5)      
 
     def cambiar_estado_producir(self,combobox,productos_pendientes,ventana):
         from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
