@@ -5,6 +5,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.abspath("src"), ".."))
 from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
 #from src.gestorAplicacion.administrativo.Cambio import Cambio
 from src.gestorAplicacion.administrativo.materiaPrima import MateriaPrima
 from src.gestorAplicacion.administrativo.Cambio import Cambio
@@ -129,12 +130,88 @@ class LoginApp:
             ("Registrar Cliente", self.mostrar_encuesta),
             ("Crear Pedido", self.crear_pedido),
             ("Mostrar historial", self.mostrarCambios),
+            ("Pedidos pendientes", self.mostrar_pedidos_pendientes),
             ("Volver", lambda: self.reingresar(ventana))
         ]
         
         for texto, comando in botones:
             tk.Button(ventana, text=texto, command=comando, font=("Arial", 12), width=20, height=2, bg="#0056b3", fg="white").pack(pady=10)
-    
+            
+
+    def mostrar_pedidos_pendientes(self):
+
+        # Crear un Combobox para seleccionar el producto
+        productos = Bodeguero.productos_pendientes2()
+        nombres_productos = [producto.nombre for producto in productos]  # Lista de nombres de productos
+
+        if len(productos) == 0:
+
+            messagebox.showinfo("Informacion","No hay pedidos pendientes de materia prima")
+
+        else:
+            # Crear una nueva ventana para los pedidos pendientes
+            pedidos_pendientes_ventana = tk.Toplevel()
+            pedidos_pendientes_ventana.title("Pedidos Pendientes")
+            pedidos_pendientes_ventana.geometry("800x600")
+            pedidos_pendientes_ventana.configure(bg="#f0f0f0")
+
+            imagen_fondo = Image.open("descarga1.jpg")
+            imagen_fondo = imagen_fondo.resize((800, 600))
+            fondo = ImageTk.PhotoImage(imagen_fondo)
+
+            # Crear un label con la imagen
+            label_fondo = tk.Label(pedidos_pendientes_ventana, image=fondo)
+            label_fondo.place(relwidth=1, relheight=1)
+            label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
+            
+            # Título de la ventana
+            tk.Label(pedidos_pendientes_ventana, text="Lista de productos pendientes de pedido", font=("Arial", 22, "bold"), bg="#f0f0f0").pack(pady=20)
+
+            combo_productos = ttk.Combobox(pedidos_pendientes_ventana, values=nombres_productos)
+            combo_productos.pack(pady=10)
+
+            # Función para mostrar las materias primas del producto seleccionado
+            def mostrar_materias_primas(event):
+                producto_seleccionado = combo_productos.get()
+                lista_materias_primas.delete(0, tk.END)  # Limpiar la lista actual
+                
+                # Buscar el producto seleccionado en la lista de productos
+                for producto in productos:
+                    if producto.nombre == producto_seleccionado:
+                        # Mostrar las materias primas del producto seleccionado
+                        for materia_prima in producto.ingredientes:
+                            lista_materias_primas.insert(tk.END, materia_prima)
+                        break
+
+            # Vincular la función al evento de selección del Combobox
+            combo_productos.bind("<<ComboboxSelected>>", mostrar_materias_primas)
+
+            # Crear una Listbox para mostrar las materias primas
+            lista_materias_primas = tk.Listbox(pedidos_pendientes_ventana)
+            lista_materias_primas.pack(pady=10)
+
+            # Botón para cambiar el estado del pedido a "Realizado"
+
+            boton_seleccionar = tk.Button(pedidos_pendientes_ventana, text="Realizado", command=lambda: self.cambiar_estado_pedido(combo_productos,productos,pedidos_pendientes_ventana)) ########
+            boton_seleccionar.pack(pady=5)
+
+            # Botón para volver
+            boton_volver = tk.Button(pedidos_pendientes_ventana, text="Volver", command=pedidos_pendientes_ventana.destroy)
+            boton_volver.pack(pady=20)
+
+    def cambiar_estado_pedido(self,combobox,productos_pendientes,ventana):
+      
+        nombre_producto = combobox.get()
+        indice_producto = combobox.current()
+
+        Cambio("Pedido realizado","Asesor comercial",productos_pendientes[indice_producto].nombre, date.today())
+
+        messagebox.showinfo("Informacion",f"Se ha cambiado el estado del pedido a realizado: {nombre_producto}")
+
+        Bodeguero.cambiar_estado_producto(productos_pendientes[indice_producto],"Pedido realizado")
+
+
+
     def crear_pedido(self):
         pedido_ventana = tk.Toplevel()
         pedido_ventana.title("Crear pedido")

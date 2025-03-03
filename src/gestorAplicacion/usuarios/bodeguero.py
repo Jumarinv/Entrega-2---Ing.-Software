@@ -12,6 +12,16 @@ class Bodeguero:
         lista = []
 
         for i in AgenteComercial.Pedidos:
+            if i.estado == "Pedido realizado":
+                lista.append(i)
+
+        return lista
+    
+    def productos_pendientes2():
+        from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+        lista = []
+
+        for i in AgenteComercial.Pedidos:
             if i.estado == "Pendiente":
                 lista.append(i)
 
