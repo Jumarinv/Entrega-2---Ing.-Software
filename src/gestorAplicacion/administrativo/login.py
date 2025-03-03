@@ -384,6 +384,9 @@ class LoginApp:
         boton_terminar = tk.Button(ventana3, text="Terminar producto", command=self.actualizar_terminados)
         boton_terminar.pack(pady=20)
 
+        boton_terminar = tk.Button(ventana3, text="Despachar producto", command=self.despachar_producto)
+        boton_terminar.pack(pady=20)
+
         boton_buscar= tk.Button(ventana3, text="Buscar producto", command=self.buscar)
         boton_buscar.pack(pady=20)
 
@@ -424,6 +427,51 @@ class LoginApp:
 
             boton_seleccionar = tk.Button(llegada_ventana, text="Seleccionar", command=lambda: self.cambiar_estado_producir(combobox_nombres_productos,lista_productos_pendientes,llegada_ventana)) ########
             boton_seleccionar.pack(pady=5)
+
+    def despachar_producto(self):
+
+        lista_productos_pendientes = Bodeguero.productosTerminados()
+
+        for p in AgenteComercial.Pedidos:
+            print(f"{p.nombre} -- {p.estado}")
+
+
+        if len(lista_productos_pendientes) == 0:
+
+            messagebox.showinfo("Informacion","No hay productos terminados para despachar")
+
+        else:
+
+            llegada_ventana = tk.Toplevel()
+            llegada_ventana.title("Despachar producto")
+            llegada_ventana.geometry("500x400")
+            
+            nombres_productos = []
+
+            for o in lista_productos_pendientes:
+                nombres_productos.append(o.nombre)
+
+            label_informacion_validar = tk.Label(llegada_ventana,text="Seleccione el producto que quiere despachar:")
+            label_informacion_validar.pack(pady=8)
+
+            combobox_nombres_productos = ttk.Combobox(llegada_ventana, values=nombres_productos,state='readonly')
+            combobox_nombres_productos.pack(pady=8)
+
+            boton_seleccionar = tk.Button(llegada_ventana, text="Despachar", command=lambda: self.despachar(combobox_nombres_productos,lista_productos_pendientes,llegada_ventana)) ########
+            boton_seleccionar.pack(pady=5)
+
+    def despachar(self,combobox,productos_pendientes,ventana):
+
+        nombre_producto = combobox.get()
+        indice_producto = combobox.current()
+
+        #Cambio("Llegada ingredientes","Bodeguero",productos_pendientes[indice_producto].nombre, date.today())
+
+        messagebox.showinfo("Informacion",f"Se ha despachado el producto: {nombre_producto}")
+
+        Producto.productos.remove(productos_pendientes[indice_producto])
+
+
 
     def actualizar_terminados(self):
         from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial

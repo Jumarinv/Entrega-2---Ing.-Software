@@ -38,6 +38,16 @@ class Bodeguero:
 
         return lista
     
+    def productosTerminados():
+        from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+        lista = []
+
+        for i in AgenteComercial.Pedidos:
+            if i.estado == "Terminado":
+                lista.append(i)
+
+        return lista
+    
     @classmethod
     def buscar(cls,id):
         from src.gestorAplicacion.administrativo.producto import Producto
