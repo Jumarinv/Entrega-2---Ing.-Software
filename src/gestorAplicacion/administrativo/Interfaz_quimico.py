@@ -194,6 +194,10 @@ class InterfazQuimico:
             self.ingredient_entry.delete(0, tk.END)
             self.quantity_entry.delete(0, tk.END)
 
+        else:
+
+            messagebox.showerror("Error","Por favor ingrese el nombre y cantidad del ingrediente")
+
     def remove_ingredient(self, frame):
         for item in self.ingredients:
             if item[2] == frame:
@@ -215,7 +219,7 @@ class InterfazQuimico:
             Quimico.asociar_ingredientes(k[1],k[2],producto)
 
         Cambio("Ingredientes", "Quimico", producto.nombre, date.today() )
-        messagebox.showinfo("Informacion","Se han enviado los datos al agente comercial")
+        messagebox.showinfo("Informacion","Se han asociado los ingredientes correctamente")
 
         for item in self.ingredients:
             item[2].destroy()
