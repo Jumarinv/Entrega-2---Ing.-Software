@@ -180,7 +180,7 @@ class LoginApp:
                     if producto.nombre == producto_seleccionado:
                         # Mostrar las materias primas del producto seleccionado
                         for materia_prima in producto.ingredientes:
-                            lista_materias_primas.insert(tk.END, materia_prima.nombre)
+                            lista_materias_primas.insert(tk.END, f"{materia_prima.nombre} - {materia_prima.cantidad}")
                         break
 
             # Vincular la función al evento de selección del Combobox
@@ -267,7 +267,7 @@ class LoginApp:
 
     def registrar_Cliente1(self,ventana):
         self.mostrar_encuesta()
-        ventana.destroy()
+        ventana.destroy()#
 
 
 
@@ -279,7 +279,7 @@ class LoginApp:
             print(nombre)
         crear_pedidos(cliente,nombre,estado,None,cantidad,None)
         messagebox.showinfo('Resultado','Pedido creado correctamente')
-        ventana.destroy()
+        
         for i in AgenteComercial.Pedidos:
             print(f"Cliente: {i.cliente}, Nombre: {i.nombre}, Estado: {i.estado}, Ingredientes: {i.ingredientes}, Cantidad: {i.cantidad}, Fecha: {i.fechaCaducidad}")
     
