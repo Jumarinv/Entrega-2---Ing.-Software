@@ -394,7 +394,7 @@ class LoginApp:
         from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
         from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
 
-        lista_productos_pendientes = Bodeguero.productos_pendientes()
+        lista_productos_pendientes = Bodeguero.productos_pendientes2()
 
         for p in AgenteComercial.Pedidos:
             print(f"{p.nombre} -- {p.estado}")
