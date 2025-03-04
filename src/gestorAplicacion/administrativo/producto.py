@@ -63,17 +63,3 @@ class Producto:
     @classmethod
     def agregarProducto(cls,p):
         cls.productos.append(p)
-
-"""producto1 = Producto(cliente="Cliente1", nombre="Producto1", estado="Nuevo", ingredientes=["ProductoX", "ProductoY"], cantidad=10, fechaCaducidad="2025-05-01")
-producto2 = Producto(cliente="Cliente2", nombre="Producto2", estado="Nuevo", ingredientes=["ProductoXl", "ProductoY"], cantidad=5, fechaCaducidad="2025-06-01")
-producto3 = Producto(cliente="Cliente3", nombre="Producto3", estado="Usado", ingredientes=["ProductoX", "ProductoY"], cantidad=3, fechaCaducidad="2025-07-01")
-producto4 = Producto(cliente="Cliente4", nombre="Producto4", estado="Nuevo", ingredientes=["ProductoX", "ProductoY"], cantidad=7)
-producto5 = Producto(cliente="Cliente5", nombre="Producto5", estado="Nuevo", ingredientes=["ProductoX", "ProductoY"], cantidad=2)
-Producto.agregarProducto(producto1)
-Producto.agregarProducto(producto2)
-Producto.agregarProducto(producto3)
-Producto.agregarProducto(producto4)
-Producto.agregarProducto(producto5)
-Producto.agregarProducto(Producto("Juan", "Crema1", "Entregado", ["ProductoX", "ProductoY"], 2, "2024-07-01"))
-Producto.agregarProducto(Producto("Ana", "Crema2", "Pendiente", ["ProductoX", "ProductoY"], 3,"2025-07-02"))"""
-#Producto.crearInformeExcel()

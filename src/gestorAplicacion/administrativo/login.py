@@ -180,7 +180,7 @@ class LoginApp:
                     if producto.nombre == producto_seleccionado:
                         # Mostrar las materias primas del producto seleccionado
                         for materia_prima in producto.ingredientes:
-                            lista_materias_primas.insert(tk.END, materia_prima)
+                            lista_materias_primas.insert(tk.END, materia_prima.nombre)
                         break
 
             # Vincular la función al evento de selección del Combobox
@@ -363,7 +363,9 @@ class LoginApp:
         ventana3 = tk.Toplevel()
         ventana3.title("Bodeguero")
         ventana3.geometry("800x600")
-
+        ventana3.configure(bg="#f0f0f0")
+        
+        # Cargar la imagen de fondo
         imagen_fondo = Image.open("descarga1.jpg")
         imagen_fondo = imagen_fondo.resize((800, 600))
         fondo = ImageTk.PhotoImage(imagen_fondo)
@@ -373,40 +375,26 @@ class LoginApp:
         label_fondo.place(relwidth=1, relheight=1)
         label_fondo.image = fondo  # Evitar que la imagen sea eliminada por el recolector de basura
 
-        # bienvenida
-        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 22, "bold")).pack(pady=20)
-
-        ventana3.title("Bodeguero")
-
-        # Botón para registrar cliente
-        botonMostrarCambios = tk.Button(ventana3, text="Mostrar historial", command=self.mostrarCambios)
-        botonMostrarCambios.pack(pady=20)
-
-        boton_nuevo = tk.Button(ventana3, text="Stock productos", command=self.excelStockProductos)
-        boton_nuevo.pack(pady=20)
-
+        tk.Label(ventana3, text="Bienvenido bodeguero", font=("Arial", 22, "bold"), bg="#f0f0f0").pack(pady=20)
         
-        boton_validar = tk.Button(ventana3, text="Validar llegada de materia prima", command=self.validar_llegada_materiaprima)
-        boton_validar.pack(pady=20)
-
-        boton_terminar = tk.Button(ventana3, text="Terminar producto", command=self.actualizar_terminados)
-        boton_terminar.pack(pady=20)
-
-        boton_terminar = tk.Button(ventana3, text="Despachar producto", command=self.despachar_producto)
-        boton_terminar.pack(pady=20)
-
-        boton_buscar= tk.Button(ventana3, text="Buscar producto", command=self.buscar)
-        boton_buscar.pack(pady=20)
-
-        # Botón para volver
-        botonVolver = tk.Button(ventana3, text="Volver", command= lambda: self.reingresar(ventana3) )
-        botonVolver.pack(pady=20)
+        botones = [
+            ("Mostrar historial", self.mostrarCambios),
+            ("Stock productos", self.excelStockProductos),
+            ("Validar llegada de materia prima", self.validar_llegada_materiaprima),
+            ("Terminar producto", self.actualizar_terminados),
+            ("Despachar producto", self.despachar_producto),
+            ("Buscar producto", self.buscar),
+            ("Volver", lambda: self.reingresar(ventana3))
+        ]
+        
+        for texto, comando in botones:
+            tk.Button(ventana3, text=texto, command=comando, font=("Arial", 12), width=25, height=2, bg="#0056b3", fg="white").pack(pady=10)
 
     def validar_llegada_materiaprima(self):
         from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
         from src.gestorAplicacion.usuarios.bodeguero import Bodeguero
 
-        lista_productos_pendientes = Bodeguero.productos_pendientes2()
+        lista_productos_pendientes = Bodeguero.productos_pendientes()
 
         for p in AgenteComercial.Pedidos:
             print(f"{p.nombre} -- {p.estado}")

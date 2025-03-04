@@ -7,7 +7,7 @@ class Bodeguero:
         self.productos = []
 
     @staticmethod
-    def productos_pendientes():
+    def productos_pendientes():#Para meteria prima
         from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
         lista = []
 
