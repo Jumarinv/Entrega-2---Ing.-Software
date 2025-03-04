@@ -39,10 +39,10 @@ class Bodeguero:
         return lista
     
     def productosTerminados():
-        from src.gestorAplicacion.usuarios.agenteComercial import AgenteComercial
+        from src.gestorAplicacion.administrativo.producto import Producto
         lista = []
 
-        for i in AgenteComercial.Pedidos:
+        for i in Producto.productos:
             if i.estado == "Terminado":
                 lista.append(i)
 
